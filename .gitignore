@@ -1,0 +1,23 @@
+# 依赖与构建
+node_modules/
+dist/
+build/
+__pycache__/
+*.py[cod]
+.venv/
+
+# 本地环境与密钥
+.env
+.env.*
+!.env.example
+
+# 用户照片、重建缓存与高精度产物（不入公开仓库）
+scenes/*/source/
+scenes/*/cache/
+scenes/*/master/
+scenes/*/derived/
+
+# 系统与编辑器
+.DS_Store
+.idea/
+.vscode/
