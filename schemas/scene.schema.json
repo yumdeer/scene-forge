@@ -1,0 +1,382 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sceneforge.local/schemas/scene.schema.json",
+  "title": "SceneForge 场景工程",
+  "description": "场景工程唯一真源。路径可为本地工程相对路径或受支持的 URI；事实、推断和人工确认必须分别记录。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion", "sceneId", "title", "status", "intent", "coordinateSystem",
+    "inputs", "sources", "location", "cameras", "elements", "assets", "environment",
+    "master", "publications", "acceptance", "revision"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1.0.0" },
+    "sceneId": { "$ref": "#/$defs/id" },
+    "title": { "type": "string", "minLength": 1 },
+    "status": {
+      "enum": ["surveying", "awaiting_confirmation", "reconstructing", "reviewing", "ready", "published", "archived"]
+    },
+    "intent": {
+      "description": "geolocation_first=真实地点优先；photo_composition_first=照片构图优先；style_reference=风格参考。",
+      "enum": ["geolocation_first", "photo_composition_first", "style_reference"]
+    },
+    "coordinateSystem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["units", "upAxis", "handedness", "origin"],
+      "properties": {
+        "units": { "const": "meter" },
+        "upAxis": { "const": "Y" },
+        "handedness": { "const": "right" },
+        "origin": { "type": "string", "minLength": 1 }
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["photos", "allowExternalUpload"],
+      "properties": {
+        "photos": {
+          "type": "array", "minItems": 1,
+          "items": { "$ref": "#/$defs/photo" }
+        },
+        "allowExternalUpload": {
+          "type": "boolean",
+          "description": "只表示用户是否允许上传；具体服务与当次授权在勘察结果中记录。"
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "sources": {
+      "type": "array", "minItems": 1,
+      "items": { "$ref": "#/$defs/source" }
+    },
+    "location": { "$ref": "#/$defs/location" },
+    "cameras": {
+      "type": "array", "minItems": 1,
+      "items": { "$ref": "#/$defs/camera" }
+    },
+    "elements": {
+      "type": "array", "minItems": 1,
+      "items": { "$ref": "#/$defs/element" }
+    },
+    "assets": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/asset" }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["terrain", "water", "vegetation", "lighting", "sky"],
+      "properties": {
+        "terrain": {
+          "type": "object", "additionalProperties": false,
+          "required": ["method", "sourceRefs", "assetRefs"],
+          "properties": {
+            "method": { "enum": ["geodata", "parametric", "photogrammetry", "hybrid"] },
+            "sourceRefs": { "$ref": "#/$defs/sourceRefs" },
+            "assetRefs": { "$ref": "#/$defs/assetRefs" }
+          }
+        },
+        "water": {
+          "type": "object", "additionalProperties": false,
+          "required": ["mode", "sourceRefs"],
+          "properties": {
+            "mode": { "enum": ["procedural", "static", "none"] },
+            "level": { "type": "number" },
+            "sourceRefs": { "$ref": "#/$defs/sourceRefs" }
+          }
+        },
+        "vegetation": {
+          "type": "object", "additionalProperties": false,
+          "required": ["mode", "density", "sourceRefs"],
+          "properties": {
+            "mode": { "enum": ["procedural", "photogrammetry", "hybrid", "none"] },
+            "density": { "$ref": "#/$defs/unitInterval" },
+            "sourceRefs": { "$ref": "#/$defs/sourceRefs" }
+          }
+        },
+        "lighting": {
+          "type": "object", "additionalProperties": false,
+          "required": ["sunAzimuth", "sunElevation", "estimated", "sourceRefs"],
+          "properties": {
+            "sunAzimuth": { "type": "number", "minimum": 0, "maximum": 360 },
+            "sunElevation": { "type": "number", "minimum": -90, "maximum": 90 },
+            "fogColor": { "$ref": "#/$defs/hexColor" },
+            "estimated": { "type": "boolean" },
+            "sourceRefs": { "$ref": "#/$defs/sourceRefs" }
+          }
+        },
+        "sky": {
+          "type": "object", "additionalProperties": false,
+          "required": ["mode", "assetRefs"],
+          "properties": {
+            "mode": { "enum": ["procedural", "texture", "none"] },
+            "assetRefs": { "$ref": "#/$defs/assetRefs" }
+          }
+        }
+      }
+    },
+    "master": {
+      "type": "object", "additionalProperties": false,
+      "required": ["uri", "format", "editable", "assetRefs"],
+      "properties": {
+        "uri": { "$ref": "#/$defs/uri" },
+        "format": { "enum": ["blender", "scene"] },
+        "editable": { "const": true },
+        "assetRefs": { "$ref": "#/$defs/assetRefs" },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "publications": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/publication" }
+    },
+    "acceptance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["survey", "layout", "keyAreas", "photoComparison", "lod"],
+      "properties": {
+        "survey": { "$ref": "#/$defs/acceptanceGate" },
+        "layout": { "$ref": "#/$defs/acceptanceGate" },
+        "keyAreas": { "$ref": "#/$defs/acceptanceGate" },
+        "photoComparison": { "$ref": "#/$defs/acceptanceGate" },
+        "lod": { "$ref": "#/$defs/acceptanceGate" }
+      }
+    },
+    "revision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["version", "parent", "createdAt", "changelog"],
+      "properties": {
+        "version": { "type": "integer", "minimum": 1 },
+        "parent": { "type": ["string", "null"], "description": "上一版本号；首版为 null。" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "changelog": { "type": "string", "minLength": 1 }
+      }
+    }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,63}$" },
+    "uri": { "type": "string", "minLength": 1 },
+    "sha256": { "type": "string", "pattern": "^[0-9a-fA-F]{64}$" },
+    "hexColor": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+    "unitInterval": { "type": "number", "minimum": 0, "maximum": 1 },
+    "vector3": {
+      "type": "array", "minItems": 3, "maxItems": 3,
+      "items": { "type": "number" }
+    },
+    "positiveVector3": {
+      "type": "array", "minItems": 3, "maxItems": 3,
+      "items": { "type": "number", "exclusiveMinimum": 0 }
+    },
+    "sourceRefs": {
+      "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true
+    },
+    "assetRefs": {
+      "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true
+    },
+    "photo": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "uri", "sha256", "kind", "quality", "issues", "privacy"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "uri": { "$ref": "#/$defs/uri" },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "kind": { "enum": ["original", "detail", "reference"] },
+        "quality": { "enum": ["unknown", "passed", "warning", "failed"] },
+        "issues": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "exif": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "capturedAt": { "type": "string", "format": "date-time" },
+            "width": { "type": "integer", "minimum": 1 },
+            "height": { "type": "integer", "minimum": 1 },
+            "focalLengthMm": { "type": "number", "exclusiveMinimum": 0 },
+            "latitude": { "type": "number", "minimum": -90, "maximum": 90 },
+            "longitude": { "type": "number", "minimum": -180, "maximum": 180 }
+          }
+        },
+        "privacy": {
+          "type": "object", "additionalProperties": false,
+          "required": ["containsPrivateInfo", "locationRedacted"],
+          "properties": {
+            "containsPrivateInfo": { "type": "boolean" },
+            "locationRedacted": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "type", "title", "license", "externalUpload"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "type": {
+          "enum": ["photo", "osm", "dem", "satellite", "reference", "visual_model", "ai_3d", "category_prior", "generated", "user"]
+        },
+        "title": { "type": "string", "minLength": 1 },
+        "uri": { "$ref": "#/$defs/uri" },
+        "publisher": { "type": "string" },
+        "license": { "type": "string", "minLength": 1 },
+        "retrievedAt": { "type": "string", "format": "date-time" },
+        "localCache": { "type": "boolean" },
+        "externalUpload": { "type": "boolean" },
+        "notes": { "type": "string" }
+      }
+    },
+    "location": {
+      "type": "object", "additionalProperties": false,
+      "required": ["mode", "confidence", "userConfirmed", "sourceRefs"],
+      "properties": {
+        "mode": { "enum": ["confirmed", "inferred", "unknown", "not_applicable"] },
+        "name": { "type": "string" },
+        "confidence": { "$ref": "#/$defs/unitInterval" },
+        "userConfirmed": { "type": "boolean" },
+        "latitude": { "type": "number", "minimum": -90, "maximum": 90 },
+        "longitude": { "type": "number", "minimum": -180, "maximum": 180 },
+        "radiusMeters": { "type": "number", "exclusiveMinimum": 0 },
+        "sourceRefs": { "$ref": "#/$defs/sourceRefs" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "mode": { "const": "confirmed" } } },
+          "then": {
+            "required": ["name"],
+            "properties": { "userConfirmed": { "const": true } }
+          }
+        }
+      ]
+    },
+    "camera": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "kind", "position", "target", "fovY", "sourceRefs", "confidence"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["reference", "render", "reconstructed"] },
+        "position": { "$ref": "#/$defs/vector3" },
+        "target": { "$ref": "#/$defs/vector3" },
+        "fovY": { "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 180 },
+        "sourceRefs": { "$ref": "#/$defs/sourceRefs" },
+        "confidence": { "$ref": "#/$defs/unitInterval" }
+      }
+    },
+    "element": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "id", "name", "category", "layer", "transform", "reconstruction",
+        "sourceRefs", "confidence", "assumptions", "confirmation", "locked", "qualityTarget"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,63}$" },
+        "name": { "type": "string", "minLength": 1 },
+        "category": { "enum": ["building", "terrain", "vegetation", "water", "sky", "road", "prop", "other"] },
+        "layer": { "enum": ["near", "mid", "far", "dynamic"] },
+        "transform": {
+          "type": "object", "additionalProperties": false,
+          "required": ["position", "rotationEulerDegrees", "scale"],
+          "properties": {
+            "position": { "$ref": "#/$defs/vector3" },
+            "rotationEulerDegrees": { "$ref": "#/$defs/vector3" },
+            "scale": { "$ref": "#/$defs/positiveVector3" }
+          }
+        },
+        "dimensions": {
+          "type": "object", "additionalProperties": false,
+          "required": ["width", "height", "depth", "estimated"],
+          "properties": {
+            "width": { "type": "number", "exclusiveMinimum": 0 },
+            "height": { "type": "number", "exclusiveMinimum": 0 },
+            "depth": { "type": "number", "exclusiveMinimum": 0 },
+            "estimated": { "type": "boolean" }
+          }
+        },
+        "reconstruction": {
+          "type": "object", "additionalProperties": false,
+          "required": ["method", "assetRefs"],
+          "properties": {
+            "method": { "enum": ["photogrammetry", "ai_3d", "parametric", "geodata", "template", "procedural"] },
+            "assetRefs": { "$ref": "#/$defs/assetRefs" },
+            "generator": {
+              "type": "object", "additionalProperties": false,
+              "required": ["uri", "entrypoint", "parameters"],
+              "properties": {
+                "uri": { "$ref": "#/$defs/uri" },
+                "entrypoint": { "type": "string", "minLength": 1 },
+                "parameters": { "type": "object" }
+              }
+            }
+          }
+        },
+        "sourceRefs": { "type": "array", "minItems": 1, "items": { "type": "string" }, "uniqueItems": true },
+        "confidence": { "$ref": "#/$defs/unitInterval" },
+        "assumptions": { "type": "array", "items": { "type": "string" } },
+        "confirmation": { "$ref": "#/$defs/review" },
+        "locked": { "type": "boolean" },
+        "qualityTarget": { "enum": ["master", "high", "medium", "low"] }
+      }
+    },
+    "asset": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "kind", "uri", "role", "sourceRefs", "license"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["glb", "texture", "terrain", "point_cloud", "blender", "other"] },
+        "uri": { "$ref": "#/$defs/uri" },
+        "role": { "enum": ["master", "source", "derived"] },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "sourceRefs": { "$ref": "#/$defs/sourceRefs" },
+        "license": { "type": "string", "minLength": 1 }
+      }
+    },
+    "publication": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "id", "lod", "uri", "format", "geometryCompression", "textureCompression",
+        "maxTextureSize", "vegetationDensity", "features"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "lod": { "enum": ["lod0", "lod1", "lod2", "lod3"] },
+        "uri": { "$ref": "#/$defs/uri" },
+        "format": { "enum": ["glb", "gltf"] },
+        "geometryCompression": { "enum": ["none", "meshopt", "draco"] },
+        "textureCompression": { "enum": ["none", "ktx2", "webp"] },
+        "maxTextureSize": { "enum": [512, 1024, 2048, 4096, 8192] },
+        "vegetationDensity": { "$ref": "#/$defs/unitInterval" },
+        "features": {
+          "type": "object", "additionalProperties": false,
+          "required": ["shadows", "reflections", "wind", "particles"],
+          "properties": {
+            "shadows": { "type": "boolean" },
+            "reflections": { "type": "boolean" },
+            "wind": { "type": "boolean" },
+            "particles": { "type": "boolean" }
+          }
+        },
+        "stats": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "triangleCount": { "type": "integer", "minimum": 0 },
+            "textureBytes": { "type": "integer", "minimum": 0 },
+            "downloadBytes": { "type": "integer", "minimum": 0 }
+          }
+        }
+      }
+    },
+    "review": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "notes"],
+      "properties": {
+        "status": { "enum": ["pending", "approved", "changes_requested", "not_required"] },
+        "reviewer": { "type": "string" },
+        "at": { "type": "string", "format": "date-time" },
+        "notes": { "type": "string" }
+      }
+    },
+    "acceptanceGate": {
+      "allOf": [{ "$ref": "#/$defs/review" }],
+      "type": "object",
+      "properties": { "reportUri": { "$ref": "#/$defs/uri" } }
+    }
+  }
+}
