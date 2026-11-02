@@ -1,0 +1,2 @@
+# SceneForge 契约校验依赖；版本固定，不使用浮动 latest。
+jsonschema==4.19.2

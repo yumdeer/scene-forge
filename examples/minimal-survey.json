@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "1.0.0",
+  "surveyId": "survey-example-001",
+  "sceneId": "example-garden-pavilion",
+  "createdAt": "2026-10-31T10:00:00+08:00",
+  "status": "awaiting_user",
+  "intent": "photo_composition_first",
+  "summary": "单张正面照片，可识别亭子主体与周边植被；缺乏进深与尺度信息，建议按主视图优先重建。",
+  "inputs": {
+    "photoCount": 1,
+    "usablePhotoCount": 1,
+    "multiView": false,
+    "qualityIssues": [],
+    "privacyNotes": [
+      "照片未包含可识别的人物或车辆。"
+    ],
+    "photoUsage": [
+      {
+        "photoRef": "photo_01",
+        "purpose": "主视图参考：用于确认亭子轮廓、檐口高度与柱数。",
+        "coverageNote": "仅正面视角，无进深与背面信息。"
+      }
+    ]
+  },
+  "location": {
+    "mode": "unknown",
+    "name": "",
+    "confidence": 0,
+    "userConfirmed": false,
+    "evidence": []
+  },
+  "coverage": {
+    "mode": "single_image",
+    "estimatedDegrees": 0,
+    "overlapAssessment": "insufficient",
+    "coveredSectors": [
+      "front"
+    ],
+    "missingSectors": [
+      "left",
+      "right",
+      "back",
+      "top"
+    ],
+    "reshootInstructions": [
+      "补拍左右两侧各一张，保持主体完整入镜。",
+      "补拍一张稍高机位，用于确认屋顶与进深。"
+    ]
+  },
+  "elements": [
+    {
+      "id": "pavilion_main",
+      "name": "亭子主体",
+      "category": "building",
+      "layer": "near",
+      "proposedMethod": "parametric",
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.5,
+      "assumptions": [
+        "平面按正方形估计。",
+        "柱高与檐口高度取亭类建筑通用先验。"
+      ],
+      "userDecision": "pending"
+    }
+  ],
+  "externalServices": [],
+  "blockers": [
+    {
+      "id": "scale_unknown",
+      "severity": "warning",
+      "message": "照片缺少尺度参考，尺寸只能按类别先验估计。",
+      "userAction": "提供亭子的实测宽度或柱距，或确认接受估计尺寸。"
+    }
+  ],
+  "recommendations": [
+    "先输出无细节灰模，确认体量与轮廓。",
+    "补充侧面照片后再生成进深与屋顶细节。"
+  ],
+  "userQuestions": [
+    "是否接受当前尺寸为估计值？"
+  ],
+  "nextStep": "等待用户确认尺寸策略与重建意图，然后生成灰模。"
+}

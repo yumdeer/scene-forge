@@ -22,6 +22,29 @@
 - [实施路线](docs/IMPLEMENTATION_ROADMAP.md)：阶段交付、出口门禁与测试策略。
 - [布达拉宫建模复盘](docs/POTALA_CASE_STUDY.md)：既有模型失真原因与专项重建流程。
 
+## 快速开始
+
+```bash
+# 依赖（版本固定）
+python3 -m pip install -r requirements.txt
+
+# 校验场景 / 勘察文档
+python3 pipeline/schema_validate.py scene examples/minimal-scene.json
+python3 pipeline/schema_validate.py survey examples/minimal-survey.json
+
+# 由勘察数据生成人读报告（唯一数据源，禁止手工维护第二份结论）
+python3 pipeline/render_survey.py examples/minimal-survey.json --out /tmp/survey-report.md
+
+# 契约与渲染测试
+python3 -m unittest discover -s tests -v
+```
+
+报告模板见 [templates/survey-report.md](templates/survey-report.md)，由 `survey.json` 渲染生成，测试会校验其与渲染结果一致。
+
 ## 当前状态
 
-阶段 1：工程契约与勘察基线。后续代码、Schema 和报告模板将以计划书第 14 节为验收标准。
+阶段 1：工程契约与勘察基线。
+
+- 已完成：`scene.json` / `survey.json` Schema、最小完整示例、校验 CLI、勘察报告渲染器、正负向契约测试。
+- 进行中：`scene.json` v1.1 提案（`observations`、`relations`、`fidelity`、`geometryConstraints`、`cameras[].solvedFrom`）落 Schema。
+- 待启动：阶段 2 单图最小闭环（视觉证据适配器、建筑 Builder、灰模主视图对照）。

@@ -1,0 +1,183 @@
+{
+  "schemaVersion": "1.0.0",
+  "sceneId": "example-garden-pavilion",
+  "title": "示例：庭园小亭",
+  "status": "surveying",
+  "intent": "photo_composition_first",
+  "coordinateSystem": {
+    "units": "meter",
+    "upAxis": "Y",
+    "handedness": "right",
+    "origin": "亭体基座中心在地面的投影点"
+  },
+  "inputs": {
+    "photos": [
+      {
+        "id": "photo_01",
+        "uri": "inputs/photo_01.jpg",
+        "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "kind": "original",
+        "quality": "passed",
+        "issues": [],
+        "exif": {
+          "capturedAt": "2026-10-30T15:20:00+08:00",
+          "width": 4032,
+          "height": 3024,
+          "focalLengthMm": 26
+        },
+        "privacy": {
+          "containsPrivateInfo": false,
+          "locationRedacted": true
+        }
+      }
+    ],
+    "allowExternalUpload": false,
+    "notes": "单张正面参考图，无尺度控制点。"
+  },
+  "sources": [
+    {
+      "id": "photo_01",
+      "type": "photo",
+      "title": "用户提供的亭子正面照片",
+      "uri": "inputs/photo_01.jpg",
+      "license": "user-provided",
+      "externalUpload": false
+    },
+    {
+      "id": "category_prior_01",
+      "type": "category_prior",
+      "title": "亭类建筑通用尺寸先验",
+      "license": "internal",
+      "externalUpload": false,
+      "notes": "柱高、檐口高度与开间尺寸用于无尺度补全。"
+    }
+  ],
+  "location": {
+    "mode": "unknown",
+    "confidence": 0,
+    "userConfirmed": false,
+    "sourceRefs": ["photo_01"]
+  },
+  "cameras": [
+    {
+      "id": "camera_reference",
+      "kind": "reference",
+      "position": [0, -12, 1.6],
+      "target": [0, 0, 2.2],
+      "fovY": 45,
+      "sourceRefs": ["photo_01"],
+      "confidence": 0.35
+    }
+  ],
+  "elements": [
+    {
+      "id": "pavilion_main",
+      "name": "亭子主体",
+      "category": "building",
+      "layer": "near",
+      "transform": {
+        "position": [0, 0, 0],
+        "rotationEulerDegrees": [0, 0, 0],
+        "scale": [1, 1, 1]
+      },
+      "dimensions": {
+        "width": 4,
+        "height": 4.2,
+        "depth": 4,
+        "estimated": true
+      },
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/pavilion.py",
+          "entrypoint": "build",
+          "parameters": {
+            "column_count": 4,
+            "eave_height": 2.8,
+            "roof_type": "pyramidal"
+          }
+        }
+      },
+      "sourceRefs": ["photo_01", "category_prior_01"],
+      "confidence": 0.5,
+      "assumptions": [
+        "进深按正方形平面估计，照片无法直接观测。",
+        "柱高与檐口高度取亭类建筑通用先验。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认体量。"
+      },
+      "locked": false,
+      "qualityTarget": "high"
+    }
+  ],
+  "assets": [],
+  "environment": {
+    "terrain": {
+      "method": "parametric",
+      "sourceRefs": ["photo_01"],
+      "assetRefs": []
+    },
+    "water": {
+      "mode": "none",
+      "sourceRefs": ["photo_01"]
+    },
+    "vegetation": {
+      "mode": "procedural",
+      "density": 0.2,
+      "sourceRefs": ["photo_01"]
+    },
+    "lighting": {
+      "sunAzimuth": 135,
+      "sunElevation": 40,
+      "estimated": true,
+      "sourceRefs": ["photo_01"]
+    },
+    "sky": {
+      "mode": "procedural",
+      "assetRefs": []
+    }
+  },
+  "master": {
+    "uri": "scenes/example-garden-pavilion/master.blend",
+    "format": "blender",
+    "editable": true,
+    "assetRefs": []
+  },
+  "publications": [],
+  "acceptance": {
+    "survey": {
+      "status": "pending",
+      "notes": "勘察尚未确认。",
+      "reportUri": "reports/survey.md"
+    },
+    "layout": {
+      "status": "pending",
+      "notes": "灰模尚未生成。",
+      "reportUri": "reports/layout.md"
+    },
+    "keyAreas": {
+      "status": "not_required",
+      "notes": "当前无指定重点区域。",
+      "reportUri": "reports/key-areas.md"
+    },
+    "photoComparison": {
+      "status": "pending",
+      "notes": "尚未进行原图对照。",
+      "reportUri": "reports/photo-comparison.md"
+    },
+    "lod": {
+      "status": "not_required",
+      "notes": "尚未生成发布档。",
+      "reportUri": "reports/lod.md"
+    }
+  },
+  "revision": {
+    "version": 1,
+    "parent": null,
+    "createdAt": "2026-10-31T10:00:00+08:00",
+    "changelog": "初始示例，用于 Schema 校验与契约测试。"
+  }
+}

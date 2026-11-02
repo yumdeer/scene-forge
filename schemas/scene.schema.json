@@ -374,9 +374,16 @@
       }
     },
     "acceptanceGate": {
-      "allOf": [{ "$ref": "#/$defs/review" }],
       "type": "object",
-      "properties": { "reportUri": { "$ref": "#/$defs/uri" } }
+      "additionalProperties": false,
+      "required": ["status", "notes"],
+      "properties": {
+        "status": { "enum": ["pending", "approved", "changes_requested", "not_required"] },
+        "reviewer": { "type": "string" },
+        "at": { "type": "string", "format": "date-time" },
+        "notes": { "type": "string" },
+        "reportUri": { "$ref": "#/$defs/uri" }
+      }
     }
   }
 }

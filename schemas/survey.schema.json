@@ -26,7 +26,20 @@
         "usablePhotoCount": { "type": "integer", "minimum": 0 },
         "multiView": { "type": "boolean" },
         "qualityIssues": { "type": "array", "items": { "type": "string" } },
-        "privacyNotes": { "type": "array", "items": { "type": "string" } }
+        "privacyNotes": { "type": "array", "items": { "type": "string" } },
+        "photoUsage": {
+          "type": "array",
+          "description": "逐张照片的用途与覆盖范围，供勘察报告第 5 节使用；缺省表示按统一参考图处理。",
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["photoRef", "purpose"],
+            "properties": {
+              "photoRef": { "type": "string", "minLength": 1 },
+              "purpose": { "type": "string", "minLength": 1 },
+              "coverageNote": { "type": "string" }
+            }
+          }
+        }
       }
     },
     "location": {
