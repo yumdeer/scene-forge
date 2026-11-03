@@ -79,6 +79,16 @@
         "reshootInstructions": { "type": "array", "items": { "type": "string" } }
       }
     },
+    "regions": {
+      "type": "array",
+      "description": "照片区域清单：区域内可见的每种结构类别，都必须在场景中有引用该区域的元素承接；覆盖门禁由 pipeline/coverage_check.py 执行。",
+      "items": { "$ref": "#/$defs/region" }
+    },
+    "photoLandmarks": {
+      "type": "array",
+      "description": "照片上与场景元素一一对应的配准地标（如建筑整体、红宫）；配准门禁把场景几何投影到该包围盒上比对。",
+      "items": { "$ref": "#/$defs/landmark" }
+    },
     "elements": {
       "type": "array", "minItems": 1,
       "items": {
@@ -90,13 +100,17 @@
         "properties": {
           "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,63}$" },
           "name": { "type": "string", "minLength": 1 },
-          "category": { "enum": ["building", "terrain", "vegetation", "water", "sky", "road", "prop", "other"] },
+          "category": { "enum": ["building", "building_cluster", "terrace", "stairs", "retaining_wall", "terrain", "vegetation", "water", "sky", "road", "prop", "other"] },
           "layer": { "enum": ["near", "mid", "far", "dynamic"] },
           "proposedMethod": { "enum": ["photogrammetry", "ai_3d", "parametric", "geodata", "template", "procedural"] },
           "sourceRefs": { "type": "array", "minItems": 1, "items": { "type": "string" }, "uniqueItems": true },
           "confidence": { "$ref": "#/$defs/unitInterval" },
           "assumptions": { "type": "array", "items": { "type": "string" } },
-          "userDecision": { "enum": ["pending", "confirmed", "modify", "reject"] }
+          "userDecision": { "enum": ["pending", "confirmed", "modify", "reject"] },
+        "parentId": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,63}$" },
+        "orderIndex": { "type": "integer", "minimum": 0 },
+        "measurements": { "type": "array", "items": { "$ref": "#/$defs/measurement" } },
+        "repetition": { "$ref": "#/$defs/repetition" }
         }
       }
     },
@@ -139,6 +153,113 @@
     "reportUri": { "type": "string", "minLength": 1 }
   },
   "$defs": {
-    "unitInterval": { "type": "number", "minimum": 0, "maximum": 1 }
+    "unitInterval": { "type": "number", "minimum": 0, "maximum": 1 },
+    "structureClass": {
+      "enum": [
+        "terrain",
+        "massing_volume",
+        "white_wall",
+        "window_band",
+        "eave_band",
+        "terrace",
+        "retaining_wall",
+        "stairs",
+        "building_cluster",
+        "roof_cluster",
+        "vegetation",
+        "road",
+        "water",
+        "prop",
+        "other"
+      ],
+      "description": "结构类别：独立于元素 category 的“照片里能看到什么”分类，覆盖门禁按它逐项对账。"
+    },
+    "bbox": {
+      "type": "object", "additionalProperties": false,
+      "required": ["x", "y", "width", "height"],
+      "description": "归一化区域框：原点为照片左上角，x/y 为左上角，width/height 为宽高，全部在 0..1。",
+      "properties": {
+        "x": { "$ref": "#/$defs/unitInterval" },
+        "y": { "$ref": "#/$defs/unitInterval" },
+        "width": { "type": "number", "minimum": 0, "maximum": 1 },
+        "height": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "waiver": {
+      "type": "object", "additionalProperties": false,
+      "required": ["reason"],
+      "description": "显式豁免：只有写明原因才允许该区域的结构类别缺口不阻塞门禁。",
+      "properties": {
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    },
+    "landmark": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "label", "photoRef", "bbox", "elementIds"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,63}$" },
+        "label": { "type": "string", "minLength": 1 },
+        "photoRef": { "type": "string", "minLength": 1 },
+        "bbox": { "$ref": "#/$defs/bbox" },
+        "cameraId": {
+          "type": "string", "minLength": 1,
+          "description": "该地标对应的场景相机；多视角时用于选择投影相机，缺省用 cameras[0]。"
+        },
+        "elementIds": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,63}$" }
+        },
+        "tolerance": {
+          "type": "number", "exclusiveMinimum": 0, "maximum": 0.2,
+          "description": "允许的中心偏移与尺寸相对误差；缺省 0.05（画面宽高的 5%）。"
+        },
+        "note": { "type": "string" },
+        "scope": {
+          "enum": ["palace_proper", "complex"],
+          "default": "palace_proper",
+          "description": "该包围盒覆盖的对象范围：palace_proper 只含宫殿主体（白宫/红宫/金顶），complex 含外围延伸白墙等建筑群完整剪影。缺省 palace_proper。"
+        }
+      }
+    },
+    "region": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "label", "photoRef", "bbox", "structureClasses", "requiredStage"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,63}$" },
+        "label": { "type": "string", "minLength": 1 },
+        "photoRef": { "type": "string", "minLength": 1 },
+        "bbox": { "$ref": "#/$defs/bbox" },
+        "structureClasses": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": { "$ref": "#/$defs/structureClass" }
+        },
+        "requiredStage": { "enum": ["P1", "P2", "P3", "P4", "P5"] },
+        "note": { "type": "string" },
+        "waiver": { "$ref": "#/$defs/waiver" }
+      }
+    },
+    "measurement": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "label", "value", "unit", "source"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,63}$" },
+        "label": { "type": "string", "minLength": 1 },
+        "value": { "type": "number" },
+        "unit": { "enum": ["m", "px", "ratio"] },
+        "source": { "enum": ["measured", "derived", "prior"] },
+        "photoRef": { "type": "string", "minLength": 1 },
+        "note": { "type": "string" }
+      }
+    },
+    "repetition": {
+      "type": "object", "additionalProperties": false,
+      "required": ["count", "note"],
+      "properties": {
+        "count": { "type": "integer", "minimum": 2 },
+        "axis": { "enum": ["x", "y", "z", "xy", "path"] },
+        "spacingMeters": { "type": "number", "exclusiveMinimum": 0 },
+        "note": { "type": "string", "minLength": 1 }
+      }
+    }
   }
 }

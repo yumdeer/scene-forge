@@ -128,6 +128,26 @@ class ReportBehaviourTest(unittest.TestCase):
         self.assertIn("survey.schema.json", str(ctx.exception))
 
 
+class RegionSectionTest(unittest.TestCase):
+    """区域清单章节：有 regions 时渲染，缺省时整节省略。"""
+
+    def test_region_section_rendered(self):
+        report = render_survey_file(ROOT / "examples" / "potala-survey.json")
+        self.assertIn("## 4.2 照片区域与结构覆盖清单", report)
+        self.assertIn("potala_lower_front", report)
+        self.assertIn("挡墙（retaining_wall）", report)
+        self.assertIn("coverage_check.py", report)
+
+    def test_region_section_omitted_without_regions(self):
+        report = render_survey(load_survey())
+        self.assertNotIn("4.2 照片区域", report)
+
+    def test_waiver_reason_rendered(self):
+        survey = json.loads((ROOT / "examples" / "potala-survey.json").read_text(encoding="utf-8"))
+        survey["regions"][1]["waiver"] = {"reason": "被树木遮挡"}
+        self.assertIn("已豁免：被树木遮挡", render_survey(survey))
+
+
 class ReportCliTest(unittest.TestCase):
     """命令行入口：输出文件、标准输出与失败返回码。"""
 

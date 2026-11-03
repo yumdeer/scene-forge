@@ -1,0 +1,4205 @@
+{
+  "schemaVersion": "1.0.0",
+  "sceneId": "potala-palace-lhasa",
+  "title": "布达拉宫 P1 体量灰模",
+  "status": "reconstructing",
+  "intent": "photo_composition_first",
+  "coordinateSystem": {
+    "units": "meter",
+    "upAxis": "Y",
+    "handedness": "right",
+    "origin": "宫殿前立面（Y=0）中心，Z=0 为西端白墙顶"
+  },
+  "inputs": {
+    "photos": [
+      {
+        "id": "photo_01",
+        "uri": "scenes/potala-palace-lhasa/source/photo_01.jpg",
+        "sha256": "9bbc3aadb0d2edb99f5e7f1bd85ce0620993869a051c8401bbe885cc49d472c2",
+        "kind": "original",
+        "quality": "warning",
+        "issues": [
+          "无 EXIF 焦距与 GPS",
+          "阴云天空，建筑与天空曝光差异大",
+          "右侧山体遮挡东翼进深"
+        ],
+        "exif": {
+          "width": 800,
+          "height": 533
+        },
+        "privacy": {
+          "containsPrivateInfo": false,
+          "locationRedacted": true
+        }
+      },
+      {
+        "id": "photo_front",
+        "uri": "scenes/potala-palace-lhasa/source/photo_front.webp",
+        "sha256": "44f76a5a3f7fc67f3f954a74483183069294ba64a520a16e8f28b04a2e942ab6",
+        "kind": "reference",
+        "quality": "warning",
+        "issues": [
+          "网络图片，无 EXIF 焦距与 GPS",
+          "近正南视角，湖面倒影，下半部树石遮挡基座"
+        ],
+        "exif": {
+          "width": 1080,
+          "height": 729
+        },
+        "privacy": {
+          "containsPrivateInfo": false,
+          "locationRedacted": true
+        }
+      }
+    ],
+    "allowExternalUpload": false,
+    "notes": "主视图 + 正南正视图两视角；用户补充的第三张与主视图为同一文件（sha256 相同），未重复入库。"
+  },
+  "sources": [
+    {
+      "id": "photo_01",
+      "type": "photo",
+      "title": "布达拉宫西南侧照片",
+      "uri": "scenes/potala-palace-lhasa/source/photo_01.jpg",
+      "license": "用户提供，未经授权不得公开",
+      "externalUpload": false,
+      "localCache": true
+    },
+    {
+      "id": "category_prior_01",
+      "type": "category_prior",
+      "title": "藏式宫殿建筑体量先验",
+      "license": "项目内部先验",
+      "externalUpload": false
+    }
+  ],
+  "location": {
+    "mode": "inferred",
+    "name": "中国西藏拉萨布达拉宫",
+    "confidence": 0.95,
+    "userConfirmed": false,
+    "sourceRefs": [
+      "photo_01"
+    ]
+  },
+  "cameras": [
+    {
+      "id": "camera_main",
+      "kind": "reference",
+      "position": [
+        -210.54,
+        -738.44,
+        10.9
+      ],
+      "target": [
+        0.0,
+        0.0,
+        22.5
+      ],
+      "fovY": 25.8,
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.45,
+      "orbit": {
+        "target": [
+          0.0,
+          0.0,
+          22.5
+        ],
+        "azimuth": 15.914,
+        "elevation": 0.865,
+        "distance": 767.959,
+        "locked": []
+      }
+    },
+    {
+      "id": "camera_front",
+      "kind": "reconstructed",
+      "position": [
+        0.0,
+        -837.97,
+        20.42
+      ],
+      "target": [
+        0.0,
+        0.0,
+        27.0
+      ],
+      "fovY": 20.85,
+      "sourceRefs": [
+        "photo_front"
+      ],
+      "confidence": 0.45,
+      "orbit": {
+        "target": [
+          0.0,
+          0.0,
+          27.0
+        ],
+        "azimuth": 0.0,
+        "elevation": 0.45,
+        "distance": 837.996,
+        "locked": [
+          "azimuth"
+        ]
+      }
+    }
+  ],
+  "elements": [
+    {
+      "id": "potala_hill",
+      "name": "玛布日山体与前坡",
+      "category": "terrain",
+      "layer": "mid",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 660,
+        "height": 110,
+        "depth": 405,
+        "estimated": false
+      },
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "terrain",
+            "prisms": [
+              {
+                "name": "hill_slope_01",
+                "x0": -300,
+                "x1": -270,
+                "profile": [
+                  [
+                    -165,
+                    -71.5
+                  ],
+                  [
+                    0,
+                    16.5
+                  ],
+                  [
+                    110,
+                    46.5
+                  ],
+                  [
+                    240,
+                    66.5
+                  ],
+                  [
+                    240,
+                    -78.5
+                  ],
+                  [
+                    -165,
+                    -78.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": -285.0
+              },
+              {
+                "name": "hill_slope_02",
+                "x0": -270,
+                "x1": -240,
+                "profile": [
+                  [
+                    -165,
+                    -74.5
+                  ],
+                  [
+                    0,
+                    13.5
+                  ],
+                  [
+                    110,
+                    43.5
+                  ],
+                  [
+                    240,
+                    63.5
+                  ],
+                  [
+                    240,
+                    -81.5
+                  ],
+                  [
+                    -165,
+                    -81.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": -255.0
+              },
+              {
+                "name": "hill_slope_03",
+                "x0": -240,
+                "x1": -210,
+                "profile": [
+                  [
+                    -165,
+                    -77.5
+                  ],
+                  [
+                    0,
+                    10.5
+                  ],
+                  [
+                    110,
+                    40.5
+                  ],
+                  [
+                    240,
+                    60.5
+                  ],
+                  [
+                    240,
+                    -84.5
+                  ],
+                  [
+                    -165,
+                    -84.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": -225.0
+              },
+              {
+                "name": "hill_slope_04",
+                "x0": -210,
+                "x1": -180,
+                "profile": [
+                  [
+                    -165,
+                    -80.5
+                  ],
+                  [
+                    0,
+                    7.5
+                  ],
+                  [
+                    110,
+                    37.5
+                  ],
+                  [
+                    240,
+                    57.5
+                  ],
+                  [
+                    240,
+                    -87.5
+                  ],
+                  [
+                    -165,
+                    -87.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": -195.0
+              },
+              {
+                "name": "hill_slope_05",
+                "x0": -180,
+                "x1": -150,
+                "profile": [
+                  [
+                    -165,
+                    -83.5
+                  ],
+                  [
+                    0,
+                    4.5
+                  ],
+                  [
+                    110,
+                    34.5
+                  ],
+                  [
+                    240,
+                    54.5
+                  ],
+                  [
+                    240,
+                    -90.5
+                  ],
+                  [
+                    -165,
+                    -90.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": -165.0
+              },
+              {
+                "name": "hill_slope_06",
+                "x0": -150,
+                "x1": -120,
+                "profile": [
+                  [
+                    -165,
+                    -86.5
+                  ],
+                  [
+                    0,
+                    1.5
+                  ],
+                  [
+                    110,
+                    31.5
+                  ],
+                  [
+                    240,
+                    51.5
+                  ],
+                  [
+                    240,
+                    -93.5
+                  ],
+                  [
+                    -165,
+                    -93.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": -135.0
+              },
+              {
+                "name": "hill_slope_07",
+                "x0": -120,
+                "x1": -90,
+                "profile": [
+                  [
+                    -165,
+                    -89.5
+                  ],
+                  [
+                    0,
+                    -1.5
+                  ],
+                  [
+                    110,
+                    28.5
+                  ],
+                  [
+                    240,
+                    48.5
+                  ],
+                  [
+                    240,
+                    -96.5
+                  ],
+                  [
+                    -165,
+                    -96.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": -105.0
+              },
+              {
+                "name": "hill_slope_08",
+                "x0": -90,
+                "x1": -60,
+                "profile": [
+                  [
+                    -165,
+                    -92.5
+                  ],
+                  [
+                    0,
+                    -4.5
+                  ],
+                  [
+                    110,
+                    25.5
+                  ],
+                  [
+                    240,
+                    45.5
+                  ],
+                  [
+                    240,
+                    -99.5
+                  ],
+                  [
+                    -165,
+                    -99.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": -75.0
+              },
+              {
+                "name": "hill_slope_09",
+                "x0": -60,
+                "x1": -30,
+                "profile": [
+                  [
+                    -165,
+                    -95.5
+                  ],
+                  [
+                    0,
+                    -7.5
+                  ],
+                  [
+                    110,
+                    22.5
+                  ],
+                  [
+                    240,
+                    42.5
+                  ],
+                  [
+                    240,
+                    -102.5
+                  ],
+                  [
+                    -165,
+                    -102.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": -45.0
+              },
+              {
+                "name": "hill_slope_10",
+                "x0": -30,
+                "x1": 0,
+                "profile": [
+                  [
+                    -165,
+                    -98.5
+                  ],
+                  [
+                    0,
+                    -10.5
+                  ],
+                  [
+                    110,
+                    19.5
+                  ],
+                  [
+                    240,
+                    39.5
+                  ],
+                  [
+                    240,
+                    -105.5
+                  ],
+                  [
+                    -165,
+                    -105.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": -15.0
+              },
+              {
+                "name": "hill_slope_11",
+                "x0": 0,
+                "x1": 30,
+                "profile": [
+                  [
+                    -165,
+                    -101.5
+                  ],
+                  [
+                    0,
+                    -13.5
+                  ],
+                  [
+                    110,
+                    16.5
+                  ],
+                  [
+                    240,
+                    36.5
+                  ],
+                  [
+                    240,
+                    -108.5
+                  ],
+                  [
+                    -165,
+                    -108.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": 15.0
+              },
+              {
+                "name": "hill_slope_12",
+                "x0": 30,
+                "x1": 60,
+                "profile": [
+                  [
+                    -165,
+                    -104.5
+                  ],
+                  [
+                    0,
+                    -16.5
+                  ],
+                  [
+                    110,
+                    13.5
+                  ],
+                  [
+                    240,
+                    33.5
+                  ],
+                  [
+                    240,
+                    -111.5
+                  ],
+                  [
+                    -165,
+                    -111.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": 45.0
+              },
+              {
+                "name": "hill_slope_13",
+                "x0": 60,
+                "x1": 90,
+                "profile": [
+                  [
+                    -165,
+                    -107.5
+                  ],
+                  [
+                    0,
+                    -19.5
+                  ],
+                  [
+                    110,
+                    10.5
+                  ],
+                  [
+                    240,
+                    30.5
+                  ],
+                  [
+                    240,
+                    -114.5
+                  ],
+                  [
+                    -165,
+                    -114.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": 75.0
+              },
+              {
+                "name": "hill_slope_14",
+                "x0": 90,
+                "x1": 120,
+                "profile": [
+                  [
+                    -165,
+                    -110.5
+                  ],
+                  [
+                    0,
+                    -22.5
+                  ],
+                  [
+                    110,
+                    7.5
+                  ],
+                  [
+                    240,
+                    27.5
+                  ],
+                  [
+                    240,
+                    -117.5
+                  ],
+                  [
+                    -165,
+                    -117.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": 105.0
+              },
+              {
+                "name": "hill_slope_15",
+                "x0": 120,
+                "x1": 150,
+                "profile": [
+                  [
+                    -165,
+                    -113.5
+                  ],
+                  [
+                    0,
+                    -25.5
+                  ],
+                  [
+                    110,
+                    4.5
+                  ],
+                  [
+                    240,
+                    24.5
+                  ],
+                  [
+                    240,
+                    -120.5
+                  ],
+                  [
+                    -165,
+                    -120.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": 135.0
+              },
+              {
+                "name": "hill_slope_16",
+                "x0": 150,
+                "x1": 180,
+                "profile": [
+                  [
+                    -165,
+                    -116.5
+                  ],
+                  [
+                    0,
+                    -28.5
+                  ],
+                  [
+                    110,
+                    1.5
+                  ],
+                  [
+                    240,
+                    21.5
+                  ],
+                  [
+                    240,
+                    -123.5
+                  ],
+                  [
+                    -165,
+                    -123.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": 165.0
+              },
+              {
+                "name": "hill_slope_17",
+                "x0": 180,
+                "x1": 210,
+                "profile": [
+                  [
+                    -165,
+                    -119.5
+                  ],
+                  [
+                    0,
+                    -31.5
+                  ],
+                  [
+                    110,
+                    -1.5
+                  ],
+                  [
+                    240,
+                    18.5
+                  ],
+                  [
+                    240,
+                    -126.5
+                  ],
+                  [
+                    -165,
+                    -126.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": 195.0
+              },
+              {
+                "name": "hill_slope_18",
+                "x0": 210,
+                "x1": 240,
+                "profile": [
+                  [
+                    -165,
+                    -122.5
+                  ],
+                  [
+                    0,
+                    -34.5
+                  ],
+                  [
+                    110,
+                    -4.5
+                  ],
+                  [
+                    240,
+                    15.5
+                  ],
+                  [
+                    240,
+                    -129.5
+                  ],
+                  [
+                    -165,
+                    -129.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": 225.0
+              },
+              {
+                "name": "hill_slope_19",
+                "x0": 240,
+                "x1": 270,
+                "profile": [
+                  [
+                    -165,
+                    -125.5
+                  ],
+                  [
+                    0,
+                    -37.5
+                  ],
+                  [
+                    110,
+                    -7.5
+                  ],
+                  [
+                    240,
+                    12.5
+                  ],
+                  [
+                    240,
+                    -132.5
+                  ],
+                  [
+                    -165,
+                    -132.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": 255.0
+              },
+              {
+                "name": "hill_slope_20",
+                "x0": 270,
+                "x1": 300,
+                "profile": [
+                  [
+                    -165,
+                    -128.5
+                  ],
+                  [
+                    0,
+                    -40.5
+                  ],
+                  [
+                    110,
+                    -10.5
+                  ],
+                  [
+                    240,
+                    9.5
+                  ],
+                  [
+                    240,
+                    -135.5
+                  ],
+                  [
+                    -165,
+                    -135.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": 285.0
+              },
+              {
+                "name": "hill_slope_21",
+                "x0": 300,
+                "x1": 330,
+                "profile": [
+                  [
+                    -165,
+                    -131.5
+                  ],
+                  [
+                    0,
+                    -43.5
+                  ],
+                  [
+                    110,
+                    -13.5
+                  ],
+                  [
+                    240,
+                    6.5
+                  ],
+                  [
+                    240,
+                    -138.5
+                  ],
+                  [
+                    -165,
+                    -138.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": 315.0
+              },
+              {
+                "name": "hill_slope_22",
+                "x0": 330,
+                "x1": 360,
+                "profile": [
+                  [
+                    -165,
+                    -134.5
+                  ],
+                  [
+                    0,
+                    -46.5
+                  ],
+                  [
+                    110,
+                    -16.5
+                  ],
+                  [
+                    240,
+                    3.5
+                  ],
+                  [
+                    240,
+                    -141.5
+                  ],
+                  [
+                    -165,
+                    -141.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": 345.0
+              }
+            ]
+          }
+        }
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.6,
+      "assumptions": [
+        "东西向坡度按照片白墙顶线下降量标定，约 10%。",
+        "南坡按可见轮廓量测：水平进深约 165m、垂向落差约 88m，坡度约 0.55。",
+        "山体西侧肩部与东延伸为推断体量，照片中仅部分可见。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认山体坡面形态。"
+      },
+      "locked": false,
+      "qualityTarget": "low",
+      "measurements": [
+        {
+          "id": "slope_east_west",
+          "label": "宫殿基座东西向坡度（升/水平）",
+          "value": 0.1,
+          "unit": "ratio",
+          "source": "derived",
+          "photoRef": "photo_01",
+          "note": "照片主体东西跨度约 630px 对应 360m；白墙顶自西向东下降约 36m"
+        },
+        {
+          "id": "slope_south",
+          "label": "南坡坡度（升/水平）",
+          "value": 0.55,
+          "unit": "ratio",
+          "source": "derived",
+          "photoRef": "photo_01",
+          "note": "南坡水平进深约 165m、垂向落差约 88m"
+        },
+        {
+          "id": "photo_span_px",
+          "label": "照片主体横向像素跨度",
+          "value": 630,
+          "unit": "px",
+          "source": "measured",
+          "photoRef": "photo_01",
+          "note": "西端白墙 x≈125px 至东端白墙 x≈755px"
+        }
+      ],
+      "structureClasses": [
+        "terrain"
+      ],
+      "photoRegions": [
+        "potala_main"
+      ]
+    },
+    {
+      "id": "potala_terraces",
+      "name": "白宫左侧多级台地",
+      "category": "terrace",
+      "layer": "mid",
+      "parentId": "potala_hill",
+      "orderIndex": 0,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 62,
+        "height": 16,
+        "depth": 120,
+        "estimated": false
+      },
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "clay_white",
+            "repeat": [
+              {
+                "namePattern": "terrace_{i:02d}",
+                "box": {
+                  "x0": -180,
+                  "x1": -118,
+                  "y0": -120,
+                  "y1": -100,
+                  "z0": -65.7,
+                  "z1": -49.7
+                },
+                "count": 5,
+                "step": {
+                  "y": 20,
+                  "z": 10.67
+                }
+              }
+            ]
+          }
+        }
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.65,
+      "assumptions": [
+        "照片可数出约 5 级白色台地，级差与进深按可见轮廓估计。",
+        "台地属于体量级结构，在 P1 灰模阶段建出，不推迟到细节阶段。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认台地级数与级差。"
+      },
+      "locked": false,
+      "qualityTarget": "medium",
+      "measurements": [
+        {
+          "id": "level_run",
+          "label": "台地单级进深",
+          "value": 20,
+          "unit": "m",
+          "source": "derived",
+          "note": "单级进深 20m、高差 10.67m，与南坡 0.533 一致"
+        },
+        {
+          "id": "level_height",
+          "label": "台地单级高差",
+          "value": 10.67,
+          "unit": "m",
+          "source": "derived",
+          "note": "单级进深 20m、高差 10.67m，与南坡 0.533 一致"
+        }
+      ],
+      "repetition": {
+        "count": 5,
+        "axis": "y",
+        "spacingMeters": 18,
+        "note": "五级白墙台地沿南坡逐级下降"
+      },
+      "structureClasses": [
+        "terrace"
+      ],
+      "photoRegions": [
+        "potala_main"
+      ]
+    },
+    {
+      "id": "stair_path",
+      "name": "台地之间的连接梯级",
+      "category": "stairs",
+      "layer": "near",
+      "parentId": "potala_terraces",
+      "orderIndex": 0,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 12,
+        "height": 14,
+        "depth": 48,
+        "estimated": false
+      },
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "clay_white",
+            "repeat": [
+              {
+                "namePattern": "stair_flight_{i:02d}",
+                "box": {
+                  "x0": 96,
+                  "x1": 108,
+                  "y0": -30,
+                  "y1": -18,
+                  "z0": -44.6,
+                  "z1": -30.6
+                },
+                "count": 3,
+                "step": {
+                  "y": -18,
+                  "z": -9.6
+                }
+              }
+            ]
+          }
+        }
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.55,
+      "assumptions": [
+        "梯级段数按可见踏步带估计，单级踏步在灰模阶段不细分。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认梯级段数。"
+      },
+      "locked": false,
+      "qualityTarget": "low",
+      "measurements": [
+        {
+          "id": "flight_rise",
+          "label": "单段梯级高差",
+          "value": 9.6,
+          "unit": "m",
+          "source": "derived"
+        }
+      ],
+      "repetition": {
+        "count": 3,
+        "axis": "y",
+        "spacingMeters": 18,
+        "note": "三段梯级贴东坡下降，顶端随坡面地坪"
+      },
+      "structureClasses": [
+        "stairs"
+      ],
+      "photoRegions": [
+        "potala_main"
+      ]
+    },
+    {
+      "id": "white_palace",
+      "name": "白宫主体、东翼与白墙基座",
+      "category": "building",
+      "layer": "near",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 400,
+        "height": 100,
+        "depth": 86,
+        "estimated": false
+      },
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "clay",
+            "boxes": [
+              {
+                "name": "white_palace_w2",
+                "x0": -179.7,
+                "x1": -130,
+                "y0": 7.0,
+                "y1": 80,
+                "z0": 48.3,
+                "z1": 74.0,
+                "slopeZPerX": -0.1,
+                "xRef": -155.0
+              },
+              {
+                "name": "white_palace_w",
+                "x0": -130,
+                "x1": -57.0,
+                "y0": 7.0,
+                "y1": 80,
+                "z0": 39.3,
+                "z1": 77.1,
+                "slopeZPerX": -0.1,
+                "xRef": -93.5
+              },
+              {
+                "name": "white_palace_e1",
+                "x0": 53.0,
+                "x1": 100,
+                "y0": 7.0,
+                "y1": 80,
+                "z0": 21.3,
+                "z1": 62.6,
+                "slopeZPerX": -0.1,
+                "xRef": 76.5
+              },
+              {
+                "name": "white_palace_e2",
+                "x0": 100,
+                "x1": 140,
+                "y0": 7.0,
+                "y1": 80,
+                "z0": 21.3,
+                "z1": 51.0,
+                "slopeZPerX": -0.1,
+                "xRef": 120.0
+              },
+              {
+                "name": "white_palace_e3",
+                "x0": 140,
+                "x1": 179.7,
+                "y0": 7.0,
+                "y1": 80,
+                "z0": 16.8,
+                "z1": 40.0,
+                "slopeZPerX": -0.1,
+                "xRef": 160.0
+              },
+              {
+                "name": "west_tower",
+                "x0": -112,
+                "x1": -96,
+                "y0": 6.6,
+                "y1": 32,
+                "z0": 74.8,
+                "z1": 91.2
+              }
+            ],
+            "prisms": [
+              {
+                "name": "white_base_outer_w",
+                "x0": -200,
+                "x1": -180,
+                "profile": [
+                  [
+                    0,
+                    1.5
+                  ],
+                  [
+                    6,
+                    49.5
+                  ],
+                  [
+                    86,
+                    49.5
+                  ],
+                  [
+                    86,
+                    1.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": -135.0,
+                "scope": "complex"
+              },
+              {
+                "name": "white_base_01",
+                "x0": -180,
+                "x1": -90,
+                "profile": [
+                  [
+                    0,
+                    1.5
+                  ],
+                  [
+                    6,
+                    49.5
+                  ],
+                  [
+                    86,
+                    49.5
+                  ],
+                  [
+                    86,
+                    1.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": -135.0
+              },
+              {
+                "name": "white_base_02",
+                "x0": -90,
+                "x1": 0,
+                "profile": [
+                  [
+                    0,
+                    -7.5
+                  ],
+                  [
+                    6,
+                    40.5
+                  ],
+                  [
+                    86,
+                    40.5
+                  ],
+                  [
+                    86,
+                    -7.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": -45.0
+              },
+              {
+                "name": "white_base_03",
+                "x0": 0,
+                "x1": 90,
+                "profile": [
+                  [
+                    0,
+                    -16.5
+                  ],
+                  [
+                    6,
+                    31.5
+                  ],
+                  [
+                    86,
+                    31.5
+                  ],
+                  [
+                    86,
+                    -16.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": 45.0
+              },
+              {
+                "name": "white_base_04",
+                "x0": 90,
+                "x1": 180,
+                "profile": [
+                  [
+                    0,
+                    -25.5
+                  ],
+                  [
+                    6,
+                    22.5
+                  ],
+                  [
+                    86,
+                    22.5
+                  ],
+                  [
+                    86,
+                    -25.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": 135.0
+              },
+              {
+                "name": "white_base_outer_e",
+                "x0": 180,
+                "x1": 200,
+                "profile": [
+                  [
+                    0,
+                    -25.5
+                  ],
+                  [
+                    6,
+                    22.5
+                  ],
+                  [
+                    86,
+                    22.5
+                  ],
+                  [
+                    86,
+                    -25.5
+                  ]
+                ],
+                "slopeZPerX": -0.1,
+                "xRef": 135.0,
+                "scope": "complex"
+              }
+            ]
+          }
+        }
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.85,
+      "assumptions": [
+        "白宫下部按整片收分白墙（底部前缘 Y=0、顶部前缘 Y=6）建模，收分 6m。",
+        "西翼为单一体块；东翼按三段阶梯下降，对应照片中逐级降低的檐口线。",
+        "东翼进深被山体遮挡，按同类形制延续推断。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认白宫檐口线与东翼轮廓。"
+      },
+      "locked": false,
+      "qualityTarget": "high",
+      "measurements": [
+        {
+          "id": "photo_total_width_px",
+          "label": "照片主体横向像素跨度",
+          "value": 630,
+          "unit": "px",
+          "source": "measured",
+          "photoRef": "photo_01",
+          "note": "西端白墙 x≈125px 至东端白墙 x≈755px"
+        },
+        {
+          "id": "facade_width",
+          "label": "主体东西向宽度",
+          "value": 360,
+          "unit": "m",
+          "source": "derived",
+          "photoRef": "photo_01",
+          "note": "公开资料东西长 360m；对应 630px，水平标定 0.571 m/px"
+        },
+        {
+          "id": "base_wall_height",
+          "label": "白色大墙基座高度",
+          "value": 48,
+          "unit": "m",
+          "source": "derived",
+          "note": "白墙顶与地坪平行，顶/底均按 10% 坡度自西向东下降；底部前缘 Y=0、顶部前缘 Y=6（收分 6m）"
+        },
+        {
+          "id": "photo_west_roof_y_px",
+          "label": "照片西翼檐口高度（像素 y）",
+          "value": 225,
+          "unit": "px",
+          "source": "measured",
+          "photoRef": "photo_01"
+        },
+        {
+          "id": "west_eave_height",
+          "label": "西翼檐口高出白墙顶",
+          "value": 32,
+          "unit": "m",
+          "source": "derived",
+          "note": "照片约 80px，垂直标定 0.40 m/px"
+        }
+      ],
+      "structureClasses": [
+        "white_wall",
+        "massing_volume"
+      ],
+      "photoRegions": [
+        "potala_main",
+        "potala_lower_front"
+      ]
+    },
+    {
+      "id": "red_palace",
+      "name": "红宫主体",
+      "category": "building",
+      "layer": "near",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 62,
+        "height": 54,
+        "depth": 92,
+        "estimated": false
+      },
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "clay_dark",
+            "boxes": [
+              {
+                "name": "red_palace",
+                "x0": -33.0,
+                "x1": 29.0,
+                "y0": 7.0,
+                "y1": 98,
+                "z0": 36.0,
+                "z1": 90.0
+              }
+            ]
+          }
+        }
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.75,
+      "assumptions": [
+        "红宫南立面净宽 62m，按正南正视图红宫占主体宽度 17.2%（0.158/0.92）与总宽 360m 折算。",
+        "红宫竖向跨度按正视图可见高度 106px / 主体高 0.92 折算约 54m：底部落在白宫中央屋面约 36m、顶部 90m（原 30.3/96），金顶与红檐带同步下移 6m，避免红宫悬空。",
+        "原 110m 依据“红宫占 32%（205px/630px）”有误：主视图主体实宽约 548px，且 205px 把东侧红檐带计入红宫。",
+        "窗阵列与灵塔殿内部结构不在 P1 阶段建模。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认红宫顶部高差。"
+      },
+      "locked": false,
+      "qualityTarget": "high",
+      "measurements": [
+        {
+          "id": "photo_red_width_px_front",
+          "label": "红宫立面像素宽度（正视图）",
+          "value": 171,
+          "unit": "px",
+          "source": "measured",
+          "photoRef": "photo_front",
+          "note": "1080x729 正视图红宫 x≈0.372..0.530，宽 171px。"
+        },
+        {
+          "id": "block_width",
+          "label": "红宫南立面净宽",
+          "value": 62,
+          "unit": "m",
+          "source": "derived",
+          "photoRef": "photo_front",
+          "note": "171px / 993px(主体) x 360m = 62m。"
+        },
+        {
+          "id": "photo_red_height_px",
+          "label": "红宫可见高度（像素）",
+          "value": 106,
+          "unit": "px",
+          "source": "measured",
+          "photoRef": "photo_front",
+          "note": "正视图红宫屋脊 y≈0.295 至白墙交界 y≈0.440。"
+        },
+        {
+          "id": "height_over_west_white",
+          "label": "红宫高出白墙檐口",
+          "value": 24,
+          "unit": "m",
+          "source": "derived",
+          "note": "沿用上一轮推导，待正视图复核。"
+        }
+      ],
+      "structureClasses": [
+        "massing_volume"
+      ],
+      "photoRegions": [
+        "potala_main"
+      ]
+    },
+    {
+      "id": "golden_roofs",
+      "name": "红宫金顶群",
+      "category": "building_cluster",
+      "layer": "near",
+      "parentId": "red_palace",
+      "orderIndex": 0,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 80,
+        "height": 12,
+        "depth": 48,
+        "estimated": false
+      },
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "roof_gold",
+            "prisms": [
+              {
+                "name": "gold_roof_01",
+                "x0": -30.7,
+                "x1": -19.5,
+                "profile": [
+                  [
+                    14,
+                    90.05
+                  ],
+                  [
+                    32,
+                    90.05
+                  ],
+                  [
+                    23.0,
+                    101.0
+                  ]
+                ]
+              },
+              {
+                "name": "gold_roof_02",
+                "x0": -17.2,
+                "x1": -5.9,
+                "profile": [
+                  [
+                    14,
+                    90.05
+                  ],
+                  [
+                    34,
+                    90.05
+                  ],
+                  [
+                    24.0,
+                    105.0
+                  ]
+                ]
+              },
+              {
+                "name": "gold_roof_03",
+                "x0": -3.7,
+                "x1": 7.6,
+                "profile": [
+                  [
+                    14,
+                    90.05
+                  ],
+                  [
+                    34,
+                    90.05
+                  ],
+                  [
+                    24.0,
+                    103.0
+                  ]
+                ]
+              },
+              {
+                "name": "gold_roof_04",
+                "x0": 9.8,
+                "x1": 22.2,
+                "profile": [
+                  [
+                    14,
+                    90.05
+                  ],
+                  [
+                    34,
+                    90.05
+                  ],
+                  [
+                    24.0,
+                    100.0
+                  ]
+                ]
+              },
+              {
+                "name": "gold_roof_05",
+                "x0": -25.1,
+                "x1": -13.8,
+                "profile": [
+                  [
+                    44,
+                    90.05
+                  ],
+                  [
+                    64,
+                    90.05
+                  ],
+                  [
+                    54.0,
+                    99.0
+                  ]
+                ]
+              },
+              {
+                "name": "gold_roof_06",
+                "x0": -8.2,
+                "x1": 4.2,
+                "profile": [
+                  [
+                    44,
+                    90.05
+                  ],
+                  [
+                    64,
+                    90.05
+                  ],
+                  [
+                    54.0,
+                    98.0
+                  ]
+                ]
+              },
+              {
+                "name": "gold_roof_07",
+                "x0": 7.6,
+                "x1": 20.0,
+                "profile": [
+                  [
+                    44,
+                    90.05
+                  ],
+                  [
+                    64,
+                    90.05
+                  ],
+                  [
+                    54.0,
+                    97.0
+                  ]
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.8,
+      "assumptions": [
+        "七座金顶逐座给定平面位置与高差，不做统一阵列。",
+        "金顶纹样与檐口层次不在 P1 阶段建模。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认金顶数量与位置。"
+      },
+      "locked": false,
+      "qualityTarget": "medium",
+      "repetition": {
+        "count": 7,
+        "axis": "xy",
+        "note": "七座金顶逐座定位，位置与高差逐座记录"
+      },
+      "structureClasses": [
+        "roof_cluster"
+      ],
+      "photoRegions": [
+        "potala_main"
+      ]
+    },
+    {
+      "id": "ancillary_compound",
+      "name": "东坡小平台房群",
+      "category": "building_cluster",
+      "layer": "mid",
+      "parentId": "potala_hill",
+      "orderIndex": 1,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 96,
+        "height": 12,
+        "depth": 98,
+        "estimated": false
+      },
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "clay_white",
+            "repeat": [
+              {
+                "namePattern": "platform_house_{i:02d}",
+                "box": {
+                  "x0": 188,
+                  "x1": 204,
+                  "y0": -60,
+                  "y1": -46,
+                  "z0": -66,
+                  "z1": -54
+                },
+                "count": 6,
+                "step": {
+                  "x": 14,
+                  "y": -14,
+                  "z": -8.7
+                }
+              }
+            ]
+          }
+        }
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.5,
+      "assumptions": [
+        "小平台房群按东坡可见轮廓排布，逐座给平台高程。",
+        "房体只做体块，不建内部结构。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认房群数量与位置。"
+      },
+      "locked": false,
+      "qualityTarget": "low",
+      "measurements": [
+        {
+          "id": "house_width",
+          "label": "单个房体宽度",
+          "value": 16,
+          "unit": "m",
+          "source": "derived"
+        },
+        {
+          "id": "platform_height",
+          "label": "单个平台房高度",
+          "value": 12,
+          "unit": "m",
+          "source": "derived",
+          "note": "按可见门窗层数估计"
+        }
+      ],
+      "repetition": {
+        "count": 6,
+        "axis": "xy",
+        "spacingMeters": 19.8,
+        "note": "沿东坡下降分布的小平台房群，顶面随坡面地坪"
+      },
+      "structureClasses": [
+        "building_cluster"
+      ],
+      "photoRegions": [
+        "potala_main"
+      ]
+    },
+    {
+      "id": "potala_eaves",
+      "name": "檐口棕色横带",
+      "category": "building",
+      "layer": "near",
+      "parentId": "white_palace",
+      "orderIndex": 1,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 360,
+        "height": 2,
+        "depth": 90,
+        "estimated": false
+      },
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "clay_dark",
+            "boxes": [
+              {
+                "name": "eave_base_01",
+                "x0": -179.8,
+                "x1": -90.2,
+                "y0": 5.55,
+                "y1": 8.55,
+                "z0": 49.3,
+                "z1": 50.5,
+                "slopeZPerX": -0.1,
+                "xRef": -135.0
+              },
+              {
+                "name": "eave_base_02",
+                "x0": -89.8,
+                "x1": -0.2,
+                "y0": 5.55,
+                "y1": 8.55,
+                "z0": 40.3,
+                "z1": 41.5,
+                "slopeZPerX": -0.1,
+                "xRef": -45.0
+              },
+              {
+                "name": "eave_base_03",
+                "x0": 0.2,
+                "x1": 89.8,
+                "y0": 5.55,
+                "y1": 8.55,
+                "z0": 31.3,
+                "z1": 32.5,
+                "slopeZPerX": -0.1,
+                "xRef": 45.0
+              },
+              {
+                "name": "eave_base_04",
+                "x0": 90.2,
+                "x1": 179.8,
+                "y0": 5.55,
+                "y1": 8.55,
+                "z0": 22.3,
+                "z1": 23.5,
+                "slopeZPerX": -0.1,
+                "xRef": 135.0
+              },
+              {
+                "name": "eave_white_w2",
+                "x0": -179.8,
+                "x1": -130.2,
+                "y0": 5.55,
+                "y1": 8.55,
+                "z0": 73.8,
+                "z1": 75.0,
+                "slopeZPerX": -0.1,
+                "xRef": -93.5
+              },
+              {
+                "name": "eave_white_w_l",
+                "x0": -129.8,
+                "x1": -113.0,
+                "y0": 5.55,
+                "y1": 8.55,
+                "z0": 76.89999999999999,
+                "z1": 78.1,
+                "slopeZPerX": -0.1,
+                "xRef": -93.5
+              },
+              {
+                "name": "eave_white_w_r",
+                "x0": -95.0,
+                "x1": -57.2,
+                "y0": 5.55,
+                "y1": 8.55,
+                "z0": 76.89999999999999,
+                "z1": 78.1,
+                "slopeZPerX": -0.1,
+                "xRef": -93.5
+              },
+              {
+                "name": "eave_white_e1",
+                "x0": 53.2,
+                "x1": 99.8,
+                "y0": 5.55,
+                "y1": 8.55,
+                "z0": 62.4,
+                "z1": 63.6,
+                "slopeZPerX": -0.1,
+                "xRef": 76.5
+              },
+              {
+                "name": "eave_white_e2",
+                "x0": 100.2,
+                "x1": 139.8,
+                "y0": 5.55,
+                "y1": 8.55,
+                "z0": 50.8,
+                "z1": 52.0,
+                "slopeZPerX": -0.1,
+                "xRef": 120.0
+              },
+              {
+                "name": "eave_white_e3",
+                "x0": 140.2,
+                "x1": 179.8,
+                "y0": 5.55,
+                "y1": 8.55,
+                "z0": 39.8,
+                "z1": 41.0,
+                "slopeZPerX": -0.1,
+                "xRef": 160.0
+              },
+              {
+                "name": "eave_red",
+                "x0": -56.8,
+                "x1": 52.8,
+                "y0": 5.55,
+                "y1": 8.55,
+                "z0": 88.4,
+                "z1": 89.6
+              },
+              {
+                "name": "eave_tower",
+                "x0": -111.8,
+                "x1": -96.2,
+                "y0": 5.55,
+                "y1": 8.55,
+                "z0": 90.2,
+                "z1": 91.2
+              }
+            ]
+          }
+        }
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.7,
+      "assumptions": [
+        "檐口棕色横带按各段檐口线逐段给出，宽 1m、高约 1.8m。",
+        "檐带属于构图识别特征，P1 阶段以薄体块表达。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认檐带层数与位置。"
+      },
+      "locked": false,
+      "qualityTarget": "low",
+      "repetition": {
+        "count": 12,
+        "axis": "xy",
+        "note": "四段白墙顶 + 五段白宫檐口 + 红宫顶 + 西塔顶，共 12 道棕色檐带"
+      },
+      "structureClasses": [
+        "eave_band"
+      ],
+      "photoRegions": [
+        "potala_main"
+      ]
+    },
+    {
+      "id": "white_palace_windows",
+      "name": "白墙基座窗阵列",
+      "category": "building",
+      "layer": "near",
+      "parentId": "white_palace",
+      "orderIndex": 2,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 360,
+        "height": 48,
+        "depth": 6,
+        "estimated": false
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.6,
+      "assumptions": [
+        "白墙 7 层窗洞按 4 排、每段 14 孔做体量级抽象，不建窗棂细部。",
+        "窗洞随白墙收分面（Y=0→6）逐排后退。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认该层细节的数量与位置。"
+      },
+      "locked": false,
+      "qualityTarget": "medium",
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "window_dark",
+            "repeat": [
+              {
+                "namePattern": "facade_win_s1_r1_{i:02d}",
+                "box": {
+                  "x0": -175.6,
+                  "x1": -173.4,
+                  "y0": 2.98,
+                  "y1": 3.4,
+                  "z0": 26.7,
+                  "z1": 29.1,
+                  "slopeZPerX": -0.1,
+                  "xRef": -135.0
+                },
+                "count": 14,
+                "step": {
+                  "x": 6.0
+                }
+              },
+              {
+                "namePattern": "facade_win_s1_r2_{i:02d}",
+                "box": {
+                  "x0": -175.6,
+                  "x1": -173.4,
+                  "y0": 3.76,
+                  "y1": 4.18,
+                  "z0": 32.94,
+                  "z1": 35.34,
+                  "slopeZPerX": -0.1,
+                  "xRef": -135.0
+                },
+                "count": 14,
+                "step": {
+                  "x": 6.0
+                }
+              },
+              {
+                "namePattern": "facade_win_s1_r3_{i:02d}",
+                "box": {
+                  "x0": -175.6,
+                  "x1": -173.4,
+                  "y0": 4.54,
+                  "y1": 4.96,
+                  "z0": 39.18,
+                  "z1": 41.58,
+                  "slopeZPerX": -0.1,
+                  "xRef": -135.0
+                },
+                "count": 14,
+                "step": {
+                  "x": 6.0
+                }
+              },
+              {
+                "namePattern": "facade_win_s1_r4_{i:02d}",
+                "box": {
+                  "x0": -175.6,
+                  "x1": -173.4,
+                  "y0": 5.32,
+                  "y1": 5.74,
+                  "z0": 45.42,
+                  "z1": 47.82,
+                  "slopeZPerX": -0.1,
+                  "xRef": -135.0
+                },
+                "count": 14,
+                "step": {
+                  "x": 6.0
+                }
+              },
+              {
+                "namePattern": "facade_win_s2_r1_{i:02d}",
+                "box": {
+                  "x0": -85.6,
+                  "x1": -83.4,
+                  "y0": 2.98,
+                  "y1": 3.4,
+                  "z0": 17.7,
+                  "z1": 20.1,
+                  "slopeZPerX": -0.1,
+                  "xRef": -45.0
+                },
+                "count": 14,
+                "step": {
+                  "x": 6.0
+                }
+              },
+              {
+                "namePattern": "facade_win_s2_r2_{i:02d}",
+                "box": {
+                  "x0": -85.6,
+                  "x1": -83.4,
+                  "y0": 3.76,
+                  "y1": 4.18,
+                  "z0": 23.94,
+                  "z1": 26.34,
+                  "slopeZPerX": -0.1,
+                  "xRef": -45.0
+                },
+                "count": 14,
+                "step": {
+                  "x": 6.0
+                }
+              },
+              {
+                "namePattern": "facade_win_s2_r3_{i:02d}",
+                "box": {
+                  "x0": -85.6,
+                  "x1": -83.4,
+                  "y0": 4.54,
+                  "y1": 4.96,
+                  "z0": 30.18,
+                  "z1": 32.58,
+                  "slopeZPerX": -0.1,
+                  "xRef": -45.0
+                },
+                "count": 14,
+                "step": {
+                  "x": 6.0
+                }
+              },
+              {
+                "namePattern": "facade_win_s2_r4_{i:02d}",
+                "box": {
+                  "x0": -85.6,
+                  "x1": -83.4,
+                  "y0": 5.32,
+                  "y1": 5.74,
+                  "z0": 36.42,
+                  "z1": 38.82,
+                  "slopeZPerX": -0.1,
+                  "xRef": -45.0
+                },
+                "count": 14,
+                "step": {
+                  "x": 6.0
+                }
+              },
+              {
+                "namePattern": "facade_win_s3_r1_{i:02d}",
+                "box": {
+                  "x0": 4.4,
+                  "x1": 6.6,
+                  "y0": 2.98,
+                  "y1": 3.4,
+                  "z0": 8.7,
+                  "z1": 11.1,
+                  "slopeZPerX": -0.1,
+                  "xRef": 45.0
+                },
+                "count": 14,
+                "step": {
+                  "x": 6.0
+                }
+              },
+              {
+                "namePattern": "facade_win_s3_r2_{i:02d}",
+                "box": {
+                  "x0": 4.4,
+                  "x1": 6.6,
+                  "y0": 3.76,
+                  "y1": 4.18,
+                  "z0": 14.94,
+                  "z1": 17.34,
+                  "slopeZPerX": -0.1,
+                  "xRef": 45.0
+                },
+                "count": 14,
+                "step": {
+                  "x": 6.0
+                }
+              },
+              {
+                "namePattern": "facade_win_s3_r3_{i:02d}",
+                "box": {
+                  "x0": 4.4,
+                  "x1": 6.6,
+                  "y0": 4.54,
+                  "y1": 4.96,
+                  "z0": 21.18,
+                  "z1": 23.58,
+                  "slopeZPerX": -0.1,
+                  "xRef": 45.0
+                },
+                "count": 14,
+                "step": {
+                  "x": 6.0
+                }
+              },
+              {
+                "namePattern": "facade_win_s3_r4_{i:02d}",
+                "box": {
+                  "x0": 4.4,
+                  "x1": 6.6,
+                  "y0": 5.32,
+                  "y1": 5.74,
+                  "z0": 27.42,
+                  "z1": 29.82,
+                  "slopeZPerX": -0.1,
+                  "xRef": 45.0
+                },
+                "count": 14,
+                "step": {
+                  "x": 6.0
+                }
+              },
+              {
+                "namePattern": "facade_win_s4_r1_{i:02d}",
+                "box": {
+                  "x0": 94.4,
+                  "x1": 96.6,
+                  "y0": 2.98,
+                  "y1": 3.4,
+                  "z0": -0.3,
+                  "z1": 2.1,
+                  "slopeZPerX": -0.1,
+                  "xRef": 135.0
+                },
+                "count": 14,
+                "step": {
+                  "x": 6.0
+                }
+              },
+              {
+                "namePattern": "facade_win_s4_r2_{i:02d}",
+                "box": {
+                  "x0": 94.4,
+                  "x1": 96.6,
+                  "y0": 3.76,
+                  "y1": 4.18,
+                  "z0": 5.94,
+                  "z1": 8.34,
+                  "slopeZPerX": -0.1,
+                  "xRef": 135.0
+                },
+                "count": 14,
+                "step": {
+                  "x": 6.0
+                }
+              },
+              {
+                "namePattern": "facade_win_s4_r3_{i:02d}",
+                "box": {
+                  "x0": 94.4,
+                  "x1": 96.6,
+                  "y0": 4.54,
+                  "y1": 4.96,
+                  "z0": 12.18,
+                  "z1": 14.58,
+                  "slopeZPerX": -0.1,
+                  "xRef": 135.0
+                },
+                "count": 14,
+                "step": {
+                  "x": 6.0
+                }
+              },
+              {
+                "namePattern": "facade_win_s4_r4_{i:02d}",
+                "box": {
+                  "x0": 94.4,
+                  "x1": 96.6,
+                  "y0": 5.32,
+                  "y1": 5.74,
+                  "z0": 18.42,
+                  "z1": 20.82,
+                  "slopeZPerX": -0.1,
+                  "xRef": 135.0
+                },
+                "count": 14,
+                "step": {
+                  "x": 6.0
+                }
+              }
+            ]
+          }
+        }
+      },
+      "measurements": [
+        {
+          "id": "window_rows",
+          "label": "白墙可见窗洞排数",
+          "value": 4,
+          "unit": "ratio",
+          "source": "derived"
+        },
+        {
+          "id": "window_count_per_segment",
+          "label": "每段白墙窗洞数量",
+          "value": 14,
+          "unit": "ratio",
+          "source": "derived"
+        }
+      ],
+      "structureClasses": [
+        "window_band"
+      ],
+      "photoRegions": [
+        "potala_main",
+        "potala_lower_front"
+      ]
+    },
+    {
+      "id": "white_palace_window_bands",
+      "name": "白墙窗楣红棕色横带",
+      "category": "building",
+      "layer": "near",
+      "parentId": "white_palace",
+      "orderIndex": 3,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 360,
+        "height": 0.8,
+        "depth": 6,
+        "estimated": false
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.6,
+      "assumptions": [
+        "每排窗洞上方补一道 0.8m 红棕色窗楣带，强化白墙的水平层次。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认该层细节的数量与位置。"
+      },
+      "locked": false,
+      "qualityTarget": "low",
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "eave_red",
+            "boxes": [
+              {
+                "name": "facade_band_s1_r1",
+                "x0": -179.7,
+                "x1": -90.3,
+                "y0": 2.88,
+                "y1": 3.4,
+                "z0": 29.1,
+                "z1": 29.9,
+                "slopeZPerX": -0.1,
+                "xRef": -135.0
+              },
+              {
+                "name": "facade_band_s1_r2",
+                "x0": -179.7,
+                "x1": -90.3,
+                "y0": 3.66,
+                "y1": 4.18,
+                "z0": 35.34,
+                "z1": 36.14,
+                "slopeZPerX": -0.1,
+                "xRef": -135.0
+              },
+              {
+                "name": "facade_band_s1_r3",
+                "x0": -179.7,
+                "x1": -90.3,
+                "y0": 4.44,
+                "y1": 4.96,
+                "z0": 41.58,
+                "z1": 42.38,
+                "slopeZPerX": -0.1,
+                "xRef": -135.0
+              },
+              {
+                "name": "facade_band_s1_r4",
+                "x0": -179.7,
+                "x1": -90.3,
+                "y0": 5.22,
+                "y1": 5.74,
+                "z0": 47.82,
+                "z1": 48.62,
+                "slopeZPerX": -0.1,
+                "xRef": -135.0
+              },
+              {
+                "name": "facade_band_s2_r1",
+                "x0": -89.7,
+                "x1": -0.3,
+                "y0": 2.88,
+                "y1": 3.4,
+                "z0": 20.1,
+                "z1": 20.9,
+                "slopeZPerX": -0.1,
+                "xRef": -45.0
+              },
+              {
+                "name": "facade_band_s2_r2",
+                "x0": -89.7,
+                "x1": -0.3,
+                "y0": 3.66,
+                "y1": 4.18,
+                "z0": 26.34,
+                "z1": 27.14,
+                "slopeZPerX": -0.1,
+                "xRef": -45.0
+              },
+              {
+                "name": "facade_band_s2_r3",
+                "x0": -89.7,
+                "x1": -0.3,
+                "y0": 4.44,
+                "y1": 4.96,
+                "z0": 32.58,
+                "z1": 33.38,
+                "slopeZPerX": -0.1,
+                "xRef": -45.0
+              },
+              {
+                "name": "facade_band_s2_r4",
+                "x0": -89.7,
+                "x1": -0.3,
+                "y0": 5.22,
+                "y1": 5.74,
+                "z0": 38.82,
+                "z1": 39.62,
+                "slopeZPerX": -0.1,
+                "xRef": -45.0
+              },
+              {
+                "name": "facade_band_s3_r1",
+                "x0": 0.3,
+                "x1": 89.7,
+                "y0": 2.88,
+                "y1": 3.4,
+                "z0": 11.1,
+                "z1": 11.9,
+                "slopeZPerX": -0.1,
+                "xRef": 45.0
+              },
+              {
+                "name": "facade_band_s3_r2",
+                "x0": 0.3,
+                "x1": 89.7,
+                "y0": 3.66,
+                "y1": 4.18,
+                "z0": 17.34,
+                "z1": 18.14,
+                "slopeZPerX": -0.1,
+                "xRef": 45.0
+              },
+              {
+                "name": "facade_band_s3_r3",
+                "x0": 0.3,
+                "x1": 89.7,
+                "y0": 4.44,
+                "y1": 4.96,
+                "z0": 23.58,
+                "z1": 24.38,
+                "slopeZPerX": -0.1,
+                "xRef": 45.0
+              },
+              {
+                "name": "facade_band_s3_r4",
+                "x0": 0.3,
+                "x1": 89.7,
+                "y0": 5.22,
+                "y1": 5.74,
+                "z0": 29.82,
+                "z1": 30.62,
+                "slopeZPerX": -0.1,
+                "xRef": 45.0
+              },
+              {
+                "name": "facade_band_s4_r1",
+                "x0": 90.3,
+                "x1": 179.7,
+                "y0": 2.88,
+                "y1": 3.4,
+                "z0": 2.1,
+                "z1": 2.9,
+                "slopeZPerX": -0.1,
+                "xRef": 135.0
+              },
+              {
+                "name": "facade_band_s4_r2",
+                "x0": 90.3,
+                "x1": 179.7,
+                "y0": 3.66,
+                "y1": 4.18,
+                "z0": 8.34,
+                "z1": 9.14,
+                "slopeZPerX": -0.1,
+                "xRef": 135.0
+              },
+              {
+                "name": "facade_band_s4_r3",
+                "x0": 90.3,
+                "x1": 179.7,
+                "y0": 4.44,
+                "y1": 4.96,
+                "z0": 14.58,
+                "z1": 15.38,
+                "slopeZPerX": -0.1,
+                "xRef": 135.0
+              },
+              {
+                "name": "facade_band_s4_r4",
+                "x0": 90.3,
+                "x1": 179.7,
+                "y0": 5.22,
+                "y1": 5.74,
+                "z0": 20.82,
+                "z1": 21.62,
+                "slopeZPerX": -0.1,
+                "xRef": 135.0
+              }
+            ]
+          }
+        }
+      },
+      "structureClasses": [
+        "eave_band"
+      ],
+      "photoRegions": [
+        "potala_main",
+        "potala_lower_front"
+      ]
+    },
+    {
+      "id": "white_palace_upper_windows",
+      "name": "白宫上部体块窗阵列",
+      "category": "building",
+      "layer": "near",
+      "parentId": "white_palace",
+      "orderIndex": 4,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 360,
+        "height": 56,
+        "depth": 1,
+        "estimated": false
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.6,
+      "assumptions": [
+        "白宫上部五段体块各补 2 排窗洞，补齐照片中逐段降低的窗带。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认该层细节的数量与位置。"
+      },
+      "locked": false,
+      "qualityTarget": "medium",
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "window_dark",
+            "repeat": [
+              {
+                "namePattern": "upper_win_s1_r1_{i:02d}",
+                "box": {
+                  "x0": -176.7,
+                  "x1": -174.5,
+                  "y0": 6.68,
+                  "y1": 7.12,
+                  "z0": 54.2,
+                  "z1": 56.8,
+                  "slopeZPerX": -0.1,
+                  "xRef": -155.0
+                },
+                "count": 7,
+                "step": {
+                  "x": 6.5
+                }
+              },
+              {
+                "namePattern": "upper_win_s1_r2_{i:02d}",
+                "box": {
+                  "x0": -176.7,
+                  "x1": -174.5,
+                  "y0": 6.68,
+                  "y1": 7.12,
+                  "z0": 62.42,
+                  "z1": 65.02,
+                  "slopeZPerX": -0.1,
+                  "xRef": -155.0
+                },
+                "count": 7,
+                "step": {
+                  "x": 6.5
+                }
+              },
+              {
+                "namePattern": "upper_win_s2_r1_{i:02d}",
+                "box": {
+                  "x0": -127.0,
+                  "x1": -124.8,
+                  "y0": 6.68,
+                  "y1": 7.12,
+                  "z0": 48.58,
+                  "z1": 51.18,
+                  "slopeZPerX": -0.1,
+                  "xRef": -93.5
+                },
+                "count": 11,
+                "step": {
+                  "x": 6.5
+                }
+              },
+              {
+                "namePattern": "upper_win_s2_r2_{i:02d}",
+                "box": {
+                  "x0": -127.0,
+                  "x1": -124.8,
+                  "y0": 6.68,
+                  "y1": 7.12,
+                  "z0": 60.68,
+                  "z1": 63.28,
+                  "slopeZPerX": -0.1,
+                  "xRef": -93.5
+                },
+                "count": 11,
+                "step": {
+                  "x": 6.5
+                }
+              },
+              {
+                "namePattern": "upper_win_s3_r1_{i:02d}",
+                "box": {
+                  "x0": 56.0,
+                  "x1": 58.2,
+                  "y0": 6.68,
+                  "y1": 7.12,
+                  "z0": 31.56,
+                  "z1": 34.16,
+                  "slopeZPerX": -0.1,
+                  "xRef": 76.5
+                },
+                "count": 7,
+                "step": {
+                  "x": 6.5
+                }
+              },
+              {
+                "namePattern": "upper_win_s3_r2_{i:02d}",
+                "box": {
+                  "x0": 56.0,
+                  "x1": 58.2,
+                  "y0": 6.68,
+                  "y1": 7.12,
+                  "z0": 44.78,
+                  "z1": 47.38,
+                  "slopeZPerX": -0.1,
+                  "xRef": 76.5
+                },
+                "count": 7,
+                "step": {
+                  "x": 6.5
+                }
+              },
+              {
+                "namePattern": "upper_win_s4_r1_{i:02d}",
+                "box": {
+                  "x0": 103.0,
+                  "x1": 105.2,
+                  "y0": 6.68,
+                  "y1": 7.12,
+                  "z0": 28.32,
+                  "z1": 30.92,
+                  "slopeZPerX": -0.1,
+                  "xRef": 120.0
+                },
+                "count": 6,
+                "step": {
+                  "x": 6.5
+                }
+              },
+              {
+                "namePattern": "upper_win_s4_r2_{i:02d}",
+                "box": {
+                  "x0": 103.0,
+                  "x1": 105.2,
+                  "y0": 6.68,
+                  "y1": 7.12,
+                  "z0": 37.82,
+                  "z1": 40.42,
+                  "slopeZPerX": -0.1,
+                  "xRef": 120.0
+                },
+                "count": 6,
+                "step": {
+                  "x": 6.5
+                }
+              },
+              {
+                "namePattern": "upper_win_s5_r1_{i:02d}",
+                "box": {
+                  "x0": 143.0,
+                  "x1": 145.2,
+                  "y0": 6.68,
+                  "y1": 7.12,
+                  "z0": 22.0,
+                  "z1": 24.6,
+                  "slopeZPerX": -0.1,
+                  "xRef": 160.0
+                },
+                "count": 6,
+                "step": {
+                  "x": 6.5
+                }
+              },
+              {
+                "namePattern": "upper_win_s5_r2_{i:02d}",
+                "box": {
+                  "x0": 143.0,
+                  "x1": 145.2,
+                  "y0": 6.68,
+                  "y1": 7.12,
+                  "z0": 29.42,
+                  "z1": 32.02,
+                  "slopeZPerX": -0.1,
+                  "xRef": 160.0
+                },
+                "count": 6,
+                "step": {
+                  "x": 6.5
+                }
+              }
+            ]
+          }
+        }
+      },
+      "structureClasses": [
+        "window_band"
+      ],
+      "photoRegions": [
+        "potala_main"
+      ]
+    },
+    {
+      "id": "white_palace_upper_bands",
+      "name": "白宫上部窗楣红棕色横带",
+      "category": "building",
+      "layer": "near",
+      "parentId": "white_palace",
+      "orderIndex": 5,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 360,
+        "height": 0.8,
+        "depth": 1,
+        "estimated": false
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.6,
+      "assumptions": [
+        "上部体块每排窗洞上方补一道窗楣带，与下部白墙窗带连续。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认该层细节的数量与位置。"
+      },
+      "locked": false,
+      "qualityTarget": "low",
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "eave_red",
+            "boxes": [
+              {
+                "name": "upper_band_s1_r1",
+                "x0": -179.39999999999998,
+                "x1": -130.3,
+                "y0": 6.6,
+                "y1": 7.12,
+                "z0": 56.8,
+                "z1": 57.6,
+                "slopeZPerX": -0.1,
+                "xRef": -155.0
+              },
+              {
+                "name": "upper_band_s1_r2",
+                "x0": -179.39999999999998,
+                "x1": -130.3,
+                "y0": 6.6,
+                "y1": 7.12,
+                "z0": 65.02,
+                "z1": 65.82,
+                "slopeZPerX": -0.1,
+                "xRef": -155.0
+              },
+              {
+                "name": "upper_band_s2_r1",
+                "x0": -129.7,
+                "x1": -57.3,
+                "y0": 6.6,
+                "y1": 7.12,
+                "z0": 51.18,
+                "z1": 51.98,
+                "slopeZPerX": -0.1,
+                "xRef": -93.5
+              },
+              {
+                "name": "upper_band_s2_r2",
+                "x0": -129.7,
+                "x1": -57.3,
+                "y0": 6.6,
+                "y1": 7.12,
+                "z0": 63.28,
+                "z1": 64.08,
+                "slopeZPerX": -0.1,
+                "xRef": -93.5
+              },
+              {
+                "name": "upper_band_s3_r1",
+                "x0": 53.3,
+                "x1": 99.7,
+                "y0": 6.6,
+                "y1": 7.12,
+                "z0": 34.16,
+                "z1": 34.96,
+                "slopeZPerX": -0.1,
+                "xRef": 76.5
+              },
+              {
+                "name": "upper_band_s3_r2",
+                "x0": 53.3,
+                "x1": 99.7,
+                "y0": 6.6,
+                "y1": 7.12,
+                "z0": 47.38,
+                "z1": 48.18,
+                "slopeZPerX": -0.1,
+                "xRef": 76.5
+              },
+              {
+                "name": "upper_band_s4_r1",
+                "x0": 100.3,
+                "x1": 139.7,
+                "y0": 6.6,
+                "y1": 7.12,
+                "z0": 30.92,
+                "z1": 31.72,
+                "slopeZPerX": -0.1,
+                "xRef": 120.0
+              },
+              {
+                "name": "upper_band_s4_r2",
+                "x0": 100.3,
+                "x1": 139.7,
+                "y0": 6.6,
+                "y1": 7.12,
+                "z0": 40.42,
+                "z1": 41.22,
+                "slopeZPerX": -0.1,
+                "xRef": 120.0
+              },
+              {
+                "name": "upper_band_s5_r1",
+                "x0": 140.3,
+                "x1": 179.39999999999998,
+                "y0": 6.6,
+                "y1": 7.12,
+                "z0": 24.6,
+                "z1": 25.4,
+                "slopeZPerX": -0.1,
+                "xRef": 160.0
+              },
+              {
+                "name": "upper_band_s5_r2",
+                "x0": 140.3,
+                "x1": 179.39999999999998,
+                "y0": 6.6,
+                "y1": 7.12,
+                "z0": 32.02,
+                "z1": 32.82,
+                "slopeZPerX": -0.1,
+                "xRef": 160.0
+              }
+            ]
+          }
+        }
+      },
+      "structureClasses": [
+        "eave_band"
+      ],
+      "photoRegions": [
+        "potala_main"
+      ]
+    },
+    {
+      "id": "front_terraces",
+      "name": "白宫前坡多级白色台地",
+      "category": "terrace",
+      "layer": "mid",
+      "parentId": "potala_hill",
+      "orderIndex": 2,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 210,
+        "height": 16,
+        "depth": 90,
+        "estimated": false
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.6,
+      "assumptions": [
+        "前坡按照片可见的 4 级白色台地补齐，级差 11.7m（对应南坡 0.533）、单级进深 22m。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认该层细节的数量与位置。"
+      },
+      "locked": false,
+      "qualityTarget": "medium",
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "clay_white",
+            "repeat": [
+              {
+                "namePattern": "front_terrace_{i:02d}",
+                "box": {
+                  "x0": -20,
+                  "x1": 190,
+                  "y0": -64,
+                  "y1": -40,
+                  "z0": -57.5,
+                  "z1": -41.5,
+                  "slopeZPerX": -0.1,
+                  "xRef": 85
+                },
+                "count": 4,
+                "step": {
+                  "y": -22,
+                  "z": -11.73
+                }
+              }
+            ]
+          }
+        }
+      },
+      "measurements": [
+        {
+          "id": "level_run",
+          "label": "台地单级进深",
+          "value": 22,
+          "unit": "m",
+          "source": "derived"
+        },
+        {
+          "id": "level_height",
+          "label": "台地单级高差",
+          "value": 11.73,
+          "unit": "m",
+          "source": "derived"
+        }
+      ],
+      "structureClasses": [
+        "terrace"
+      ],
+      "photoRegions": [
+        "potala_main",
+        "potala_lower_front"
+      ]
+    },
+    {
+      "id": "terrace_parapets",
+      "name": "台地前缘红棕色挡墙带",
+      "category": "retaining_wall",
+      "layer": "mid",
+      "parentId": "front_terraces",
+      "orderIndex": 0,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 210,
+        "height": 1.3,
+        "depth": 1.4,
+        "estimated": false
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.6,
+      "assumptions": [
+        "每级台地前缘补 1.4m 宽红棕色挡墙，对应照片中台地边缘的深色横线。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认该层细节的数量与位置。"
+      },
+      "locked": false,
+      "qualityTarget": "low",
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "eave_red",
+            "repeat": [
+              {
+                "namePattern": "terrace_parapet_{i:02d}",
+                "box": {
+                  "x0": -20,
+                  "x1": 190,
+                  "y0": -64,
+                  "y1": -62.6,
+                  "z0": -41.5,
+                  "z1": -40.2,
+                  "slopeZPerX": -0.1,
+                  "xRef": 85
+                },
+                "count": 4,
+                "step": {
+                  "y": -22,
+                  "z": -11.73
+                }
+              }
+            ]
+          }
+        }
+      },
+      "structureClasses": [
+        "retaining_wall"
+      ],
+      "photoRegions": [
+        "potala_main",
+        "potala_lower_front"
+      ]
+    },
+    {
+      "id": "grand_stair",
+      "name": "白宫西侧之字形白台阶",
+      "category": "stairs",
+      "layer": "mid",
+      "parentId": "potala_hill",
+      "orderIndex": 3,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 96,
+        "height": 43,
+        "depth": 97,
+        "estimated": false
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.6,
+      "assumptions": [
+        "照片中白宫西侧大台阶按 12 段体量级台阶抽象，逐段向西偏南下降。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认该层细节的数量与位置。"
+      },
+      "locked": false,
+      "qualityTarget": "medium",
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "clay_white",
+            "repeat": [
+              {
+                "namePattern": "grand_stair_{i:02d}",
+                "box": {
+                  "x0": -10,
+                  "x1": 0,
+                  "y0": -32,
+                  "y1": -24,
+                  "z0": -30.5,
+                  "z1": -26.5
+                },
+                "count": 18,
+                "step": {
+                  "x": -5.8,
+                  "y": -5.0,
+                  "z": -2.2
+                }
+              }
+            ]
+          }
+        }
+      },
+      "measurements": [
+        {
+          "id": "flight_count",
+          "label": "台阶段数",
+          "value": 18,
+          "unit": "ratio",
+          "source": "derived"
+        }
+      ],
+      "repetition": {
+        "count": 18,
+        "axis": "path",
+        "spacingMeters": 8.3,
+        "note": "18 段之字形白台阶沿西南坡下降"
+      },
+      "structureClasses": [
+        "stairs"
+      ],
+      "photoRegions": [
+        "potala_main",
+        "potala_lower_front"
+      ]
+    },
+    {
+      "id": "stair_rails",
+      "name": "台阶红棕色扶手带",
+      "category": "other",
+      "layer": "mid",
+      "parentId": "grand_stair",
+      "orderIndex": 0,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 96,
+        "height": 1.2,
+        "depth": 1.4,
+        "estimated": false
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.6,
+      "assumptions": [
+        "台阶南侧扶手按每段 1.2m 高红棕色条带表达，对应照片中的深红折线。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认该层细节的数量与位置。"
+      },
+      "locked": false,
+      "qualityTarget": "low",
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "eave_red",
+            "repeat": [
+              {
+                "namePattern": "stair_rail_{i:02d}",
+                "box": {
+                  "x0": -10,
+                  "x1": 0,
+                  "y0": -32,
+                  "y1": -30.6,
+                  "z0": -26.5,
+                  "z1": -25.3
+                },
+                "count": 18,
+                "step": {
+                  "x": -5.8,
+                  "y": -5.0,
+                  "z": -2.2
+                }
+              }
+            ]
+          }
+        }
+      },
+      "structureClasses": [
+        "other"
+      ],
+      "photoRegions": [
+        "potala_main",
+        "potala_lower_front"
+      ]
+    },
+    {
+      "id": "monk_quarters",
+      "name": "坡下僧舍房群",
+      "category": "building_cluster",
+      "layer": "mid",
+      "parentId": "front_terraces",
+      "orderIndex": 0,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 156,
+        "height": 9,
+        "depth": 12,
+        "estimated": false
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.6,
+      "assumptions": [
+        "最低一级台地上的 8 座僧舍按 16×12×9m 体块排布，逐座向东下降 2m。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认该层细节的数量与位置。"
+      },
+      "locked": false,
+      "qualityTarget": "medium",
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "clay_white",
+            "repeat": [
+              {
+                "namePattern": "monk_house_{i:02d}",
+                "box": {
+                  "x0": 30,
+                  "x1": 46,
+                  "y0": -118,
+                  "y1": -106,
+                  "z0": -72.4,
+                  "z1": -63.4
+                },
+                "count": 8,
+                "step": {
+                  "x": 20,
+                  "z": -2.0
+                }
+              }
+            ]
+          }
+        }
+      },
+      "measurements": [
+        {
+          "id": "house_count",
+          "label": "僧舍数量",
+          "value": 8,
+          "unit": "ratio",
+          "source": "derived"
+        },
+        {
+          "id": "house_width",
+          "label": "单体僧舍面宽",
+          "value": 16,
+          "unit": "m",
+          "source": "derived"
+        }
+      ],
+      "structureClasses": [
+        "building_cluster"
+      ],
+      "photoRegions": [
+        "potala_main",
+        "potala_lower_front"
+      ]
+    },
+    {
+      "id": "monk_quarter_eaves",
+      "name": "僧舍红棕色檐带",
+      "category": "building",
+      "layer": "mid",
+      "parentId": "monk_quarters",
+      "orderIndex": 0,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 158,
+        "height": 1.5,
+        "depth": 13.6,
+        "estimated": false
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.6,
+      "assumptions": [
+        "每座僧舍顶部补 1.5m 高红棕色檐带，形成照片中连续的深红檐口线。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认该层细节的数量与位置。"
+      },
+      "locked": false,
+      "qualityTarget": "low",
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "eave_red",
+            "repeat": [
+              {
+                "namePattern": "monk_eave_{i:02d}",
+                "box": {
+                  "x0": 29.2,
+                  "x1": 46.8,
+                  "y0": -118.8,
+                  "y1": -105.2,
+                  "z0": -64.6,
+                  "z1": -63.1
+                },
+                "count": 8,
+                "step": {
+                  "x": 20,
+                  "z": -2.0
+                }
+              }
+            ]
+          }
+        }
+      },
+      "structureClasses": [
+        "eave_band"
+      ],
+      "photoRegions": [
+        "potala_main",
+        "potala_lower_front"
+      ]
+    },
+    {
+      "id": "monk_quarter_windows",
+      "name": "僧舍窗洞",
+      "category": "building",
+      "layer": "mid",
+      "parentId": "monk_quarters",
+      "orderIndex": 1,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 156,
+        "height": 4.2,
+        "depth": 0.8,
+        "estimated": false
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.6,
+      "assumptions": [
+        "每座僧舍南立面补一个 8×4.2m 深色窗洞，表达成排窗带。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认该层细节的数量与位置。"
+      },
+      "locked": false,
+      "qualityTarget": "low",
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "window_dark",
+            "repeat": [
+              {
+                "namePattern": "monk_win_{i:02d}",
+                "box": {
+                  "x0": 34,
+                  "x1": 42,
+                  "y0": -118.7,
+                  "y1": -117.9,
+                  "z0": -69.4,
+                  "z1": -65.2
+                },
+                "count": 8,
+                "step": {
+                  "x": 20,
+                  "z": -2.0
+                }
+              }
+            ]
+          }
+        }
+      },
+      "structureClasses": [
+        "window_band"
+      ],
+      "photoRegions": [
+        "potala_main",
+        "potala_lower_front"
+      ]
+    },
+    {
+      "id": "monk_quarter_roofs",
+      "name": "僧舍金顶",
+      "category": "building",
+      "layer": "mid",
+      "parentId": "monk_quarters",
+      "orderIndex": 2,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 134,
+        "height": 2.4,
+        "depth": 11,
+        "estimated": false
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.6,
+      "assumptions": [
+        "隔座僧舍补 2.4m 高金顶，对应照片中分布在白墙间的黄色屋顶。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认该层细节的数量与位置。"
+      },
+      "locked": false,
+      "qualityTarget": "medium",
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "roof_gold",
+            "repeat": [
+              {
+                "namePattern": "monk_roof_{i:02d}",
+                "box": {
+                  "x0": 51,
+                  "x1": 65,
+                  "y0": -117.5,
+                  "y1": -106.5,
+                  "z0": -65.4,
+                  "z1": -63.0
+                },
+                "count": 4,
+                "step": {
+                  "x": 40,
+                  "z": -4.0
+                }
+              }
+            ]
+          }
+        }
+      },
+      "structureClasses": [
+        "roof_cluster"
+      ],
+      "photoRegions": [
+        "potala_main",
+        "potala_lower_front"
+      ]
+    },
+    {
+      "id": "monk_quarters_upper",
+      "name": "中层僧舍房群",
+      "category": "building_cluster",
+      "layer": "mid",
+      "parentId": "front_terraces",
+      "orderIndex": 1,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 94,
+        "height": 8,
+        "depth": 10,
+        "estimated": false
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.55,
+      "assumptions": [
+        "第三级台地上补 5 座 14×10×8m 僧舍，补齐照片中层递降的小房群。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认该层细节的数量与位置。"
+      },
+      "locked": false,
+      "qualityTarget": "low",
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "clay_white",
+            "repeat": [
+              {
+                "namePattern": "monk_upper_house_{i:02d}",
+                "box": {
+                  "x0": 40,
+                  "x1": 54,
+                  "y0": -94,
+                  "y1": -84,
+                  "z0": -61.6,
+                  "z1": -53.6
+                },
+                "count": 5,
+                "step": {
+                  "x": 20,
+                  "z": -2.0
+                }
+              }
+            ]
+          }
+        }
+      },
+      "measurements": [
+        {
+          "id": "house_count",
+          "label": "中层僧舍数量",
+          "value": 5,
+          "unit": "ratio",
+          "source": "derived"
+        }
+      ],
+      "structureClasses": [
+        "building_cluster"
+      ],
+      "photoRegions": [
+        "potala_main",
+        "potala_lower_front"
+      ]
+    },
+    {
+      "id": "monk_upper_eaves",
+      "name": "中层僧舍红棕色檐带",
+      "category": "building",
+      "layer": "mid",
+      "parentId": "monk_quarters_upper",
+      "orderIndex": 0,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 96,
+        "height": 1.5,
+        "depth": 11.6,
+        "estimated": false
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.55,
+      "assumptions": [
+        "每座中层僧舍补红棕色檐带。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认该层细节的数量与位置。"
+      },
+      "locked": false,
+      "qualityTarget": "low",
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "eave_red",
+            "repeat": [
+              {
+                "namePattern": "monk_upper_eave_{i:02d}",
+                "box": {
+                  "x0": 39.2,
+                  "x1": 54.8,
+                  "y0": -94.8,
+                  "y1": -83.2,
+                  "z0": -54.8,
+                  "z1": -53.3
+                },
+                "count": 5,
+                "step": {
+                  "x": 20,
+                  "z": -2.0
+                }
+              }
+            ]
+          }
+        }
+      },
+      "structureClasses": [
+        "eave_band"
+      ],
+      "photoRegions": [
+        "potala_main",
+        "potala_lower_front"
+      ]
+    },
+    {
+      "id": "monk_upper_windows",
+      "name": "中层僧舍窗洞",
+      "category": "building",
+      "layer": "mid",
+      "parentId": "monk_quarters_upper",
+      "orderIndex": 1,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 94,
+        "height": 4.2,
+        "depth": 0.8,
+        "estimated": false
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.55,
+      "assumptions": [
+        "每座中层僧舍南立面补一个深色窗洞。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认该层细节的数量与位置。"
+      },
+      "locked": false,
+      "qualityTarget": "low",
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "window_dark",
+            "repeat": [
+              {
+                "namePattern": "monk_upper_win_{i:02d}",
+                "box": {
+                  "x0": 43,
+                  "x1": 51,
+                  "y0": -94.7,
+                  "y1": -93.9,
+                  "z0": -58.6,
+                  "z1": -54.4
+                },
+                "count": 5,
+                "step": {
+                  "x": 20,
+                  "z": -2.0
+                }
+              }
+            ]
+          }
+        }
+      },
+      "structureClasses": [
+        "window_band"
+      ],
+      "photoRegions": [
+        "potala_main",
+        "potala_lower_front"
+      ]
+    },
+    {
+      "id": "monk_upper_roofs",
+      "name": "中层僧舍金顶",
+      "category": "building",
+      "layer": "mid",
+      "parentId": "monk_quarters_upper",
+      "orderIndex": 2,
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationEulerDegrees": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "dimensions": {
+        "width": 54,
+        "height": 2.4,
+        "depth": 9,
+        "estimated": false
+      },
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.55,
+      "assumptions": [
+        "隔座中层僧舍补金顶。"
+      ],
+      "confirmation": {
+        "status": "pending",
+        "notes": "等待用户确认该层细节的数量与位置。"
+      },
+      "locked": false,
+      "qualityTarget": "low",
+      "reconstruction": {
+        "method": "parametric",
+        "assetRefs": [],
+        "generator": {
+          "uri": "generators/architecture/potala_massing.py",
+          "entrypoint": "build_massing",
+          "parameters": {
+            "material": "roof_gold",
+            "repeat": [
+              {
+                "namePattern": "monk_upper_roof_{i:02d}",
+                "box": {
+                  "x0": 61,
+                  "x1": 75,
+                  "y0": -93.5,
+                  "y1": -84.5,
+                  "z0": -55.6,
+                  "z1": -53.2
+                },
+                "count": 3,
+                "step": {
+                  "x": 40,
+                  "z": -4.0
+                }
+              }
+            ]
+          }
+        }
+      },
+      "structureClasses": [
+        "roof_cluster"
+      ],
+      "photoRegions": [
+        "potala_main",
+        "potala_lower_front"
+      ]
+    }
+  ],
+  "assets": [],
+  "environment": {
+    "terrain": {
+      "method": "parametric",
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "assetRefs": []
+    },
+    "water": {
+      "mode": "none",
+      "sourceRefs": [
+        "photo_01"
+      ]
+    },
+    "vegetation": {
+      "mode": "procedural",
+      "density": 0,
+      "sourceRefs": [
+        "photo_01"
+      ]
+    },
+    "lighting": {
+      "sunAzimuth": 202,
+      "sunElevation": 38,
+      "estimated": true,
+      "sourceRefs": [
+        "photo_01"
+      ]
+    },
+    "sky": {
+      "mode": "procedural",
+      "assetRefs": []
+    }
+  },
+  "master": {
+    "uri": "scenes/potala-palace-lhasa/master/potala.blend",
+    "format": "blender",
+    "editable": true,
+    "assetRefs": []
+  },
+  "publications": [],
+  "acceptance": {
+    "survey": {
+      "status": "pending",
+      "notes": "等待用户确认地点、元素清单与台地/房群数量。"
+    },
+    "layout": {
+      "status": "pending",
+      "notes": "P1 灰模：坡面分段、台地级数、平台房群数量与檐口线对齐待判定。"
+    },
+    "keyAreas": {
+      "status": "pending",
+      "notes": "P1 重点区域已固化为 survey.regions（potala_main / potala_lower_front）；覆盖门禁 pipeline/coverage_check.py 逐区域逐结构类别对账，缺项即失败。"
+    },
+    "photoComparison": {
+      "status": "pending",
+      "notes": "尚未实现轮廓 IoU 与关键线偏差的自动比对。"
+    },
+    "lod": {
+      "status": "not_required",
+      "notes": "P1 阶段不发布 LOD。"
+    }
+  },
+  "revision": {
+    "version": 17,
+    "parent": null,
+    "createdAt": "2026-11-03T09:45:00+08:00",
+    "changelog": "修正红宫宽度 110m→62m：新增正南正视图后拟合发现“红宫宽/主体宽”模型为 0.306、照片为 0.172（差 78%），相机无法同时对上红宫与整体。按正视图 171px/993px 与总宽 360m 折算出 62m，并同步缩放假山顶 prism 的 X 范围；新增 camera_front、fit_camera 与多视角配准门禁。 相机改为“目标点 + 环绕方位/俯仰/距离 + fov”参数化（fit_camera --anchor-x/--anchor-y，target 水平位置固定为 (0,0)），并新增 --lock-azimuth 锁死正视图方位；camera_front 方位锁定为 0°，camera_main 方位 21.2°。重拟合后主视图整体宽 -11.0%、红宫 IoU 0.94 PASS，正视图整体宽 -26.2%、红宫高 +27.4%——剩余误差已与相机自由度无关。 新增绝对尺度锚 scaleAnchor（400m×117m，公开资料）并声明照片仅约束宽高比；勘察地标新增 scope（palace_proper/complex），门禁按 scope 过滤外围延伸几何。按方案 A 补外围白墙 40m（white_base_outer_w/e，x 至 ±200，scope=complex，白墙总宽 360→400m）；红宫竖向跨度 66→54m（z0 30.3→42.0、z1 96 不变）。 红宫改为底部落于白宫中央屋面 z=36、顶部 z=90（跨度 54m），金顶与红檐带同步下移 6m：z0=42 方案会在红宫底部形成 6m 悬空暗缝（主视图渲染已确认）。"
+  },
+  "scaleAnchor": {
+    "source": "公开资料：布达拉宫东西向约 400m、自山脚至最高金顶约 117m",
+    "totalWidth": 400,
+    "totalHeight": 117,
+    "unit": "m",
+    "note": "照片只能约束宽高比（本场景锚定 aspect≈3.42），均匀缩放对成像不可观测，绝对尺寸以此锚为唯一来源。当前地形+金顶总高约 111m（-5.1%）、外围白墙总宽 400m（0%），高度残差属测量与地形基准不确定度。"
+  }
+}

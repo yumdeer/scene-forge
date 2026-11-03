@@ -305,6 +305,18 @@ build(scene_document, element_id) -> BlenderObjectTree
 | photoComparison | 主视图与原图对照 | 形/位/色/缺四项均有未处理问题 |
 | lod | 各发布档 | 降级导致主体结构破坏 |
 
+上表是人工确认型门禁；**结构性漏项**另由覆盖门禁自动判定，避免“照片里看得到、场景里没建”靠人眼发现：
+
+- 输入：勘察 `regions[]`（照片区域 → 可见结构类别）与场景元素的 `structureClasses` / `photoRegions`。
+- 命令：`python3 pipeline/coverage_check.py --survey <survey.json> --scene <scene.json>`，结果写入场景目录 `derived/coverage-report.json`。
+- 判定：任一区域声明的结构类别，若没有任何元素“同时”声明该类别并引用该区域，即失败；`waiver.reason` 只能显式豁免。元素引用不存在的区域同样失败；勘察未定义 `regions` 时默认失败，防止静默放行。
+- 粒度：按“区域 × 结构类别”判定存在性，不比较数量与位置；要卡住局部缺失，应把区域拆成更细的层带，而不是只框一整块。
+- 配准：`python3 pipeline/registration_check.py --survey <survey.json> --scene <scene.json>` 用相机把场景几何投影到 `photoLandmarks` 包围盒；中心偏移、宽/高相对误差超过 tolerance（缺省 5%）或 IoU < 0.7 即失败，并输出 `derived/registration-overlay.svg` 供人眼复核。compare.html 的透明度叠加只是并排对照，不能当作配准证据。
+- 相机参数化：相机一律用“目标点 + 环绕方位/俯仰/距离 + fov”描述（`fit_camera.py` 以 `--anchor-x/--anchor-y` 固定目标点水平位置，写回时在 `orbit` 字段留痕）。相机水平位置只能由方位角与距离推出，不能独立横移——否则求解器会用平移去吸收几何比例误差，把正视图拟合成斜视。正视图必须加 `--lock-azimuth` 把方位锁死。
+- 尺度约束：两张无 EXIF/GPS、无同名点的照片无法唯一确定绝对尺度（距离与焦距共模）。因此配准门禁只保证“在给定相机族内几何能否对齐”，绝对尺寸必须另有尺度锚（真实尺寸或 EXIF/GPS），否则残差只能说明比例问题，不能反推真实米制尺寸。场景根级用 `scaleAnchor`（`source/totalWidth/totalHeight/unit/note`）把外部尺度写进契约，缺省的均匀缩放对成像不可观测。
+- 地标口径 `scope`：`photoLandmarks[].scope` 取 `palace_proper`（缺省，只含宫殿主体）或 `complex`（含外围延伸白墙等完整剪影）。生成参数里标 `scope: "complex"` 的子体块（如 `white_base_outer_w/e`）只在 `complex` 地标参与投影，否则主体宽度会被外围延伸段虚增。
+- 流程约束：新增/删除场景元素或修改勘察区域后，必须重新运行覆盖门禁，报告与场景同版本归档。
+
 ### 8.2 轮廓对齐指标
 
 在渲染图中提取主体轮廓，与原图分割 mask 比较：

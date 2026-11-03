@@ -153,6 +153,18 @@
         "createdAt": { "type": "string", "format": "date-time" },
         "changelog": { "type": "string", "minLength": 1 }
       }
+    },
+    "scaleAnchor": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source", "totalWidth", "totalHeight", "unit"],
+      "description": "场景的绝对尺度外部锚。照片只能约束宽高比，均匀缩放对成像完全不可观测，绝对尺寸必须来自外部资料（公开尺寸/EXIF/GPS/同名点）。",
+      "properties": {
+        "source": { "type": "string", "minLength": 1, "description": "尺度来源说明（资料名称/测量方式）。" },
+        "totalWidth": { "type": "number", "exclusiveMinimum": 0, "description": "建筑群整体东西向宽度（米），用于把归一化比例换算成绝对尺寸。" },
+        "totalHeight": { "type": "number", "exclusiveMinimum": 0, "description": "建筑群整体高度（米，自山脚至最高金顶）。" },
+        "unit": { "enum": ["m"] },
+        "note": { "type": "string" }
+      }
     }
   },
   "$defs": {
@@ -257,7 +269,19 @@
         "target": { "$ref": "#/$defs/vector3" },
         "fovY": { "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 180 },
         "sourceRefs": { "$ref": "#/$defs/sourceRefs" },
-        "confidence": { "$ref": "#/$defs/unitInterval" }
+        "confidence": { "$ref": "#/$defs/unitInterval" },
+        "orbit": {
+          "type": "object", "additionalProperties": false,
+          "required": ["target", "azimuth", "elevation", "distance", "locked"],
+          "description": "环绕参数化：目标点 + 方位角 + 俯仰角 + 距离；locked 列出被锁死的自由度，正视图应锁 azimuth",
+          "properties": {
+            "target": { "$ref": "#/$defs/vector3" },
+            "azimuth": { "type": "number", "description": "相对正南方向向东为正，度" },
+            "elevation": { "type": "number", "description": "相机相对目标点的仰角，度" },
+            "distance": { "type": "number", "exclusiveMinimum": 0 },
+            "locked": { "type": "array", "items": { "enum": ["azimuth", "elevation"] } }
+          }
+        }
       }
     },
     "element": {
@@ -269,7 +293,7 @@
       "properties": {
         "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,63}$" },
         "name": { "type": "string", "minLength": 1 },
-        "category": { "enum": ["building", "terrain", "vegetation", "water", "sky", "road", "prop", "other"] },
+        "category": { "enum": ["building", "building_cluster", "terrace", "stairs", "retaining_wall", "terrain", "vegetation", "water", "sky", "road", "prop", "other"] },
         "layer": { "enum": ["near", "mid", "far", "dynamic"] },
         "transform": {
           "type": "object", "additionalProperties": false,
@@ -312,7 +336,21 @@
         "assumptions": { "type": "array", "items": { "type": "string" } },
         "confirmation": { "$ref": "#/$defs/review" },
         "locked": { "type": "boolean" },
-        "qualityTarget": { "enum": ["master", "high", "medium", "low"] }
+        "qualityTarget": { "enum": ["master", "high", "medium", "low"] },
+        "structureClasses": {
+          "type": "array", "uniqueItems": true,
+          "description": "该元素实际承接的结构类别；与 photoRegions 一起供覆盖门禁对账。",
+          "items": { "$ref": "#/$defs/structureClass" }
+        },
+        "photoRegions": {
+          "type": "array", "uniqueItems": true,
+          "description": "该元素对应的勘察区域 ID（survey.regions[].id）；不允许引用不存在的区域。",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "parentId": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,63}$" },
+        "orderIndex": { "type": "integer", "minimum": 0 },
+        "measurements": { "type": "array", "items": { "$ref": "#/$defs/measurement" } },
+        "repetition": { "$ref": "#/$defs/repetition" }
       }
     },
     "asset": {
@@ -383,6 +421,47 @@
         "at": { "type": "string", "format": "date-time" },
         "notes": { "type": "string" },
         "reportUri": { "$ref": "#/$defs/uri" }
+      }
+    },
+    "structureClass": {
+      "enum": [
+        "terrain",
+        "massing_volume",
+        "white_wall",
+        "window_band",
+        "eave_band",
+        "terrace",
+        "retaining_wall",
+        "stairs",
+        "building_cluster",
+        "roof_cluster",
+        "vegetation",
+        "road",
+        "water",
+        "prop",
+        "other"
+      ]    },
+    "measurement": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "label", "value", "unit", "source"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,63}$" },
+        "label": { "type": "string", "minLength": 1 },
+        "value": { "type": "number" },
+        "unit": { "enum": ["m", "px", "ratio"] },
+        "source": { "enum": ["measured", "derived", "prior"] },
+        "photoRef": { "type": "string", "minLength": 1 },
+        "note": { "type": "string" }
+      }
+    },
+    "repetition": {
+      "type": "object", "additionalProperties": false,
+      "required": ["count", "note"],
+      "properties": {
+        "count": { "type": "integer", "minimum": 2 },
+        "axis": { "enum": ["x", "y", "z", "xy", "path"] },
+        "spacingMeters": { "type": "number", "exclusiveMinimum": 0 },
+        "note": { "type": "string", "minLength": 1 }
       }
     }
   }

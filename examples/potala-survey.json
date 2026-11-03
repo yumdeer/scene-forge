@@ -1,0 +1,622 @@
+{
+  "schemaVersion": "1.0.0",
+  "surveyId": "survey-potala-lhasa-01",
+  "sceneId": "potala-palace-lhasa",
+  "createdAt": "2026-11-02T10:00:00+08:00",
+  "status": "awaiting_user",
+  "intent": "photo_composition_first",
+  "summary": "单张布达拉宫西南侧三分之四视角照片。本轮按“先标定比例、再建模”处理：用公开东西长 360m 与主楼高 117m 作为两条已知量，分别标定照片水平 0.571 m/px、垂直约 0.40 m/px，再据此反推红宫宽 110m、白墙高 48m、红宫顶高出白墙顶 58m、东翼三级檐口与 10% 东西向基座坡度。缺少背面、右侧与屋顶俯视信息。 山坡与白墙顶按东西向 10% 坡度沿 X 连续剪切，避免分段错台。",
+  "inputs": {
+    "photoCount": 1,
+    "usablePhotoCount": 1,
+    "multiView": false,
+    "qualityIssues": [
+      "阴云占据上半画面，天空亮度与建筑曝光差异大。",
+      "照片无 EXIF 焦距与 GPS，无法直接反解相机内参。",
+      "右侧山体与东翼相互遮挡，东侧进深不可见。",
+      "边玛墙与金顶细节在图中分辨率不足，无法逐片建模。"
+    ],
+    "privacyNotes": [
+      "画面未包含可识别的行人、车辆或私人住宅。"
+    ],
+    "photoUsage": [
+      {
+        "photoRef": "photo_01",
+        "purpose": "主视图参考：用于确定红宫/白宫分区、窗阵列节奏、金顶数量与山体轮廓。",
+        "coverageNote": "西南侧三分之四视角，覆盖前立面与左立面，背面与屋顶不可见。"
+      }
+    ]
+  },
+  "location": {
+    "mode": "inferred",
+    "name": "中国西藏拉萨布达拉宫",
+    "confidence": 0.95,
+    "userConfirmed": false,
+    "evidence": [
+      "红宫居中偏上、白宫环抱的典型分区。",
+      "金顶群与边玛墙红色装饰带。",
+      "建筑整体坐落于玛布日山，前坡为阶梯状台地与植被。"
+    ]
+  },
+  "coverage": {
+    "mode": "single_image",
+    "estimatedDegrees": 70,
+    "overlapAssessment": "insufficient",
+    "coveredSectors": [
+      "front",
+      "front-left"
+    ],
+    "missingSectors": [
+      "back",
+      "right",
+      "roof-top",
+      "ground-level"
+    ],
+    "reshootInstructions": [
+      "补拍东南侧与正南侧各一张，确认东翼进深与白宫东端轮廓。",
+      "补拍一张高机位或无人机俯视图，确认屋顶群与金顶相对位置。",
+      "补拍红宫立面近景，记录窗框、窗楣与边玛带层数。"
+    ]
+  },
+  "regions": [
+    {
+      "id": "potala_main",
+      "label": "主视图全域",
+      "photoRef": "photo_01",
+      "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 1,
+        "height": 1
+      },
+      "structureClasses": [
+        "terrain",
+        "massing_volume",
+        "white_wall",
+        "window_band",
+        "eave_band",
+        "terrace",
+        "stairs",
+        "building_cluster",
+        "roof_cluster"
+      ],
+      "requiredStage": "P1",
+      "note": "主视图整体构图与红白分区；任何一类结构缺失都视为体量不完整。"
+    },
+    {
+      "id": "potala_lower_front",
+      "label": "红框前景：白宫前坡台地、僧舍与窗带",
+      "photoRef": "photo_01",
+      "bbox": {
+        "x": 0.2,
+        "y": 0.32,
+        "width": 0.73,
+        "height": 0.32
+      },
+      "structureClasses": [
+        "white_wall",
+        "window_band",
+        "terrace",
+        "retaining_wall",
+        "stairs",
+        "building_cluster"
+      ],
+      "requiredStage": "P1",
+      "note": "此前人工检查漏掉的前景区域；台地挡墙、梯级、僧舍与窗带必须逐项有元素承接。"
+    }
+  ],
+  "elements": [
+    {
+      "id": "potala_hill",
+      "name": "玛布日山体与前坡台地",
+      "category": "terrain",
+      "layer": "mid",
+      "proposedMethod": "geodata",
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.6,
+      "assumptions": [
+        "东西向基座坡度按照片白墙顶线下降量标定，约 10%。",
+        "南坡按照片可见轮廓标定为 0.55（88m/165m），比早期 0.29 更陡。",
+        "山体按 30m 一段细分，避免东西向坡面出现大台阶。"
+      ],
+      "userDecision": "pending",
+      "measurements": [
+        {
+          "id": "visible_width",
+          "label": "山体可见宽度",
+          "value": 760,
+          "unit": "px",
+          "source": "measured",
+          "photoRef": "photo_01"
+        },
+        {
+          "id": "slope_south",
+          "label": "南坡坡度（升/水平）",
+          "value": 0.55,
+          "unit": "ratio",
+          "source": "derived",
+          "photoRef": "photo_01",
+          "note": "南坡水平进深约 165m、垂向落差约 88m"
+        },
+        {
+          "id": "slope_east_west",
+          "label": "基座东西向坡度（升/水平）",
+          "value": 0.1,
+          "unit": "ratio",
+          "source": "derived",
+          "photoRef": "photo_01",
+          "note": "主体东西 630px 对应 360m，白墙顶下降约 36m"
+        },
+        {
+          "id": "visible_height",
+          "label": "山体可见高度",
+          "value": 88,
+          "unit": "m",
+          "source": "derived",
+          "photoRef": "photo_01",
+          "note": "按南坡 0.55 与可见进深折算"
+        }
+      ]
+    },
+    {
+      "id": "white_palace",
+      "name": "白宫主体",
+      "category": "building",
+      "layer": "near",
+      "proposedMethod": "parametric",
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.85,
+      "assumptions": [
+        "主体东西宽按公开资料 360m，不按图片直接拉伸。",
+        "白墙基座按收分 6m 的实体墙建模，顶部与地坪平行下降（10% 坡度）。",
+        "西翼两段、东翼三级阶梯下降，对应照片中逐级降低的檐口线。"
+      ],
+      "userDecision": "pending",
+      "measurements": [
+        {
+          "id": "facade_width_px",
+          "label": "白宫立面可见宽度（像素）",
+          "value": 630,
+          "unit": "px",
+          "source": "measured",
+          "photoRef": "photo_01",
+          "note": "x≈125..755px"
+        },
+        {
+          "id": "facade_width",
+          "label": "主体东西向宽度",
+          "value": 360,
+          "unit": "m",
+          "source": "derived",
+          "photoRef": "photo_01",
+          "note": "公开资料东西长 360m；对应 630px，水平标定 0.571 m/px"
+        },
+        {
+          "id": "facade_height",
+          "label": "白宫立面总高（含白墙基座）",
+          "value": 80,
+          "unit": "m",
+          "source": "derived",
+          "photoRef": "photo_01",
+          "note": "白墙 48m + 上部 32m（西翼）"
+        },
+        {
+          "id": "base_height",
+          "label": "白色大墙基座高度",
+          "value": 48,
+          "unit": "m",
+          "source": "derived",
+          "photoRef": "photo_01",
+          "note": "底部前缘 Y=0、顶部前缘 Y=6（收分 6m）"
+        },
+        {
+          "id": "vertical_scale",
+          "label": "照片垂直标定（米/像素）",
+          "value": 0.4,
+          "unit": "ratio",
+          "source": "derived",
+          "photoRef": "photo_01",
+          "note": "主楼总高约 117m 对应照片约 290px"
+        }
+      ]
+    },
+    {
+      "id": "red_palace",
+      "name": "红宫主体",
+      "category": "building",
+      "layer": "near",
+      "proposedMethod": "parametric",
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.9,
+      "assumptions": [
+        "红宫按净宽 110m、进深 92m 的方形体块建模，底面落在白墙顶。",
+        "红宫顶 96m，高出中心处白墙顶 58m，对应 9 层红宫。"
+      ],
+      "userDecision": "pending",
+      "measurements": [
+        {
+          "id": "block_width",
+          "label": "红宫南立面净宽",
+          "value": 110,
+          "unit": "m",
+          "source": "derived",
+          "photoRef": "photo_01",
+          "note": "照片红宫约 205px / 主体 630px ≈ 32%，按 360m 折算约 117m，取净宽 110m"
+        },
+        {
+          "id": "block_height",
+          "label": "红宫高度（自白墙顶）",
+          "value": 58,
+          "unit": "m",
+          "source": "derived",
+          "photoRef": "photo_01",
+          "note": "红宫顶 96m − 中心白墙顶 38m ≈ 58m"
+        },
+        {
+          "id": "height_over_west_white",
+          "label": "红宫高出西翼檐口",
+          "value": 24,
+          "unit": "m",
+          "source": "derived",
+          "photoRef": "photo_01",
+          "note": "照片高差约 55px，按垂直标定 0.40 m/px 折算"
+        }
+      ]
+    },
+    {
+      "id": "east_wing",
+      "name": "东翼与白宫东端",
+      "category": "building",
+      "layer": "mid",
+      "proposedMethod": "parametric",
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.55,
+      "assumptions": [
+        "东翼被山体遮挡，按白宫同形制延续推断，并按照片檐口线分三级下降。",
+        "三级檐口高出白墙顶分别为 34m / 27m / 20m。"
+      ],
+      "userDecision": "pending",
+      "measurements": [
+        {
+          "id": "eave_drop",
+          "label": "东翼檐口总下降",
+          "value": 33,
+          "unit": "m",
+          "source": "derived",
+          "photoRef": "photo_01",
+          "note": "照片东翼檐口下降约 85px，按 0.40 m/px 折算"
+        }
+      ]
+    },
+    {
+      "id": "golden_roofs",
+      "name": "金顶群",
+      "category": "building",
+      "layer": "near",
+      "proposedMethod": "parametric",
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.8,
+      "assumptions": [
+        "按可见 7 座金顶分别建模，高差与平面位置逐座记录，不做统一阵列。",
+        "金顶细部纹样在图中不可辨，先做体量与檐口层次。"
+      ],
+      "userDecision": "pending",
+      "repetition": {
+        "count": 7,
+        "axis": "xy",
+        "note": "七座金顶逐座给定平面位置与高差，不做统一阵列"
+      }
+    },
+    {
+      "id": "front_slope_vegetation",
+      "name": "前坡草坡与灌木",
+      "category": "vegetation",
+      "layer": "near",
+      "proposedMethod": "procedural",
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.6,
+      "assumptions": [
+        "按坡面分区散布，避让阶梯台地与步道。",
+        "草色按图中低饱和黄绿取样，不引入季节性变化。"
+      ],
+      "userDecision": "pending"
+    },
+    {
+      "id": "ancillary_compound",
+      "name": "右下附属建筑群",
+      "category": "building_cluster",
+      "layer": "far",
+      "proposedMethod": "parametric",
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.5,
+      "assumptions": [
+        "附属建筑按白墙、平顶、黄檐口三个特征简化，不建内部结构。",
+        "具体层数与开间按可见部分估计，不可见部分按同类形制重复。"
+      ],
+      "userDecision": "pending",
+      "repetition": {
+        "count": 6,
+        "axis": "xy",
+        "spacingMeters": 19.8,
+        "note": "沿东坡下降分布的小平台房群，顶面随坡面地坪"
+      },
+      "measurements": [
+        {
+          "id": "platform_height",
+          "label": "单个平台房高度",
+          "value": 12,
+          "unit": "m",
+          "source": "derived",
+          "photoRef": "photo_01",
+          "note": "按可见门窗层数估计"
+        },
+        {
+          "id": "house_width",
+          "label": "单个房体宽度",
+          "value": 16,
+          "unit": "m",
+          "source": "derived",
+          "photoRef": "photo_01"
+        }
+      ]
+    },
+    {
+      "id": "overcast_sky",
+      "name": "阴云天空",
+      "category": "sky",
+      "layer": "far",
+      "proposedMethod": "template",
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.5,
+      "assumptions": [
+        "天空按阴云渐变与低色温补光还原，不追求云层形状逐朵一致。",
+        "不作为几何建模对象，仅用于对照渲染的背景与光照参考。"
+      ],
+      "userDecision": "pending"
+    },
+    {
+      "id": "potala_terraces",
+      "name": "白宫左侧多级台地",
+      "category": "terrace",
+      "layer": "mid",
+      "parentId": "potala_hill",
+      "orderIndex": 0,
+      "proposedMethod": "parametric",
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.65,
+      "assumptions": [
+        "照片可数出约 5 级白色台地，级差按可见高差估计，非实测。",
+        "台地属于体量结构，不得推迟到细节阶段。"
+      ],
+      "userDecision": "pending",
+      "measurements": [
+        {
+          "id": "level_height",
+          "label": "台地单级高差",
+          "value": 10.67,
+          "unit": "m",
+          "source": "derived",
+          "photoRef": "photo_01",
+          "note": "由南坡 0.55 与单级进深 20m 折算"
+        },
+        {
+          "id": "level_run",
+          "label": "台地单级进深",
+          "value": 20,
+          "unit": "m",
+          "source": "derived",
+          "photoRef": "photo_01"
+        }
+      ],
+      "repetition": {
+        "count": 5,
+        "axis": "y",
+        "spacingMeters": 20,
+        "note": "五级白墙台地沿南坡逐级下降，单级高差 10.67m"
+      }
+    },
+    {
+      "id": "stair_path",
+      "name": "东坡之字形梯级",
+      "category": "stairs",
+      "layer": "near",
+      "parentId": "potala_terraces",
+      "orderIndex": 0,
+      "proposedMethod": "parametric",
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.55,
+      "assumptions": [
+        "梯级段数按可见踏步带估计，具体踏步高度在灰模阶段不细分。"
+      ],
+      "userDecision": "pending",
+      "measurements": [
+        {
+          "id": "flight_rise",
+          "label": "单段梯级高差",
+          "value": 9.6,
+          "unit": "m",
+          "source": "derived",
+          "photoRef": "photo_01"
+        }
+      ],
+      "repetition": {
+        "count": 3,
+        "axis": "y",
+        "spacingMeters": 18,
+        "note": "三段梯级贴东坡下降，顶端随坡面地坪"
+      }
+    },
+    {
+      "id": "potala_eaves",
+      "name": "檐口棕色横带",
+      "category": "building",
+      "layer": "near",
+      "parentId": "white_palace",
+      "orderIndex": 1,
+      "proposedMethod": "parametric",
+      "sourceRefs": [
+        "photo_01"
+      ],
+      "confidence": 0.7,
+      "assumptions": [
+        "檐带按各段檐口线逐段给出，微凸 0.45m、厚约 1.2m。",
+        "檐带属于构图识别特征，P1 以薄体块表达。"
+      ],
+      "userDecision": "pending",
+      "repetition": {
+        "count": 12,
+        "axis": "xy",
+        "note": "四段白墙顶 + 六段白宫檐口（西塔两侧断开）+ 红宫顶 + 西塔顶，共 12 道檐带"
+      },
+      "measurements": [
+        {
+          "id": "eave_count",
+          "label": "檐带道数",
+          "value": 12,
+          "unit": "ratio",
+          "source": "measured",
+          "photoRef": "photo_01",
+          "note": "白墙顶 4 + 白宫檐口 6（西塔处断开）+ 红宫 1 + 西塔 1"
+        }
+      ]
+    }
+  ],
+  "externalServices": [],
+  "blockers": [
+    {
+      "id": "scale_unknown",
+      "severity": "warning",
+      "message": "原双向量标定不自洽：水平 0.571 m/px 与垂直 0.403 m/px 相差 41%，同一张照片的同一景深不可能有两个比例尺。按照片地标（建筑宽 548px ↔ 360m、高 189px ↔ 117m）应分别为 0.657 m/px 与 0.619 m/px，误差 6% 以内。建模用的比例尺偏高，导致主体在投影里比照片高约 15%、红宫窄约 15%。",
+      "userAction": "接受按照片地标重新标定单一比例尺，并重新拟合相机后再验收。"
+    },
+    {
+      "id": "east_side_occluded",
+      "severity": "warning",
+      "message": "东翼与右侧山体互相遮挡，东侧进深与折角不可见，只能按同类形制延续推断。",
+      "userAction": "补拍东南侧照片，或确认接受“东翼为推断体量”的降级方案。"
+    },
+    {
+      "id": "roof_detail_resolution",
+      "severity": "info",
+      "message": "金顶与边玛墙细节分辨率不足，首轮只做体量与檐口层次。",
+      "userAction": "确认首轮验收只要求主视图轮廓与分区对齐。"
+    },
+    {
+      "id": "structure_dimensions_estimated",
+      "severity": "info",
+      "message": "台地 5 级（单级 20m 进深/10.67m 高差）、梯级 3 段、房群 6 座、檐带 12 道均按可见轮廓估计。",
+      "userAction": "确认数量与级差是否符合预期。"
+    }
+  ],
+  "recommendations": [
+    "建模前先完成双向量标定（水平/垂直），再在 scene.json 中写入 measured(px) 与 derived(m) 两类测量值。",
+    "山体按 30m 一段细分并沿 X 剪切 -0.10，使东西向 10% 坡度连续下降、无分段错台。",
+    "白墙基座、上层体块与檐带必须共享同一坡面标高，体块底面取所跨墙段的最低顶标高，避免浮空。",
+    "灰模通过后再做 P3 红白分区与边玛带，最后才是 P4 窗阵列与金顶细节。",
+    "天空与光照作为对照渲染背景，不参与几何验收。"
+  ],
+  "userQuestions": [
+    "是否仍以“主视图高一致、其他视角合理”为本次验收口径？",
+    "尺寸按已知实测值（如红宫高、白宫宽）还是接受按图片比例估计？",
+    "首轮是否可以只交付灰模，暂不做金顶纹样与窗框细节？"
+  ],
+  "nextStep": "等待用户确认按双向量标定生成的 v9 主视图灰模；确认后可进入 P3 红白分区与边玛带。",
+  "photoLandmarks": [
+      {
+        "id": "building_main",
+        "label": "建筑整体（白墙基座 + 红宫 + 金顶）",
+        "photoRef": "photo_01",
+        "bbox": {
+          "x": 0.17,
+          "y": 0.3,
+          "width": 0.685,
+          "height": 0.355
+        },
+        "elementIds": [
+          "white_palace",
+          "red_palace",
+          "golden_roofs"
+        ],
+        "tolerance": 0.05,
+        "note": "在 5% 网格上目测：左沿白塔 0.17，右沿白墙东端 0.855，金顶最高点 0.30，白墙基座下沿 0.655。",
+        "cameraId": "camera_main",
+        "scope": "palace_proper"
+      },
+      {
+        "id": "red_palace",
+        "label": "红宫主体",
+        "photoRef": "photo_01",
+        "bbox": {
+          "x": 0.4,
+          "y": 0.3,
+          "width": 0.14,
+          "height": 0.17
+        },
+        "elementIds": [
+          "red_palace"
+        ],
+        "tolerance": 0.08,
+        "note": "3/4 视角下红宫东侧红檐与红宫主体同色，原 0.305..0.617 把檐带计入；按正视图比例（红宫/主体=17.2%）反推为 0.140，容差放宽到 8%。",
+        "cameraId": "camera_main",
+        "scope": "palace_proper"
+      },
+      {
+        "id": "front_building",
+        "label": "正视图建筑整体",
+        "photoRef": "photo_front",
+        "cameraId": "camera_front",
+        "bbox": {
+          "x": 0.045,
+          "y": 0.281,
+          "width": 0.91,
+          "height": 0.389
+        },
+        "note": "像素复测（2026-11-03，1080×729 原图）：左沿取宫殿最西侧白墙外缘 0.045（旧 0.055 落在墙体内）；右沿取上层宫墙东端 0.955（旧 0.975 越过宫墙进入雾霭/山体，更东的低下白墙疑为雪城建筑，不计入）；上沿取金顶最高点 0.281（旧 0.255 落在天空，0.269 附近细暗杆疑为经幡/天线，不计入）；下沿取东侧白色坡道最低点 0.670（中段主墙基约 0.62~0.63，旧 0.635 只对应中段）。",
+        "elementIds": [
+          "white_palace",
+          "red_palace",
+          "golden_roofs"
+        ],
+        "tolerance": 0.05,
+        "scope": "complex"
+      },
+      {
+        "id": "front_red_palace",
+        "label": "正视图红宫",
+        "photoRef": "photo_front",
+        "cameraId": "camera_front",
+        "bbox": {
+          "x": 0.377,
+          "y": 0.298,
+          "width": 0.154,
+          "height": 0.178
+        },
+        "elementIds": [
+          "red_palace"
+        ],
+        "tolerance": 0.06,
+        "note": "像素复测（2026-11-03）：左右沿 0.377/0.531（旧 0.372 偏左约 5px）；上沿 0.298 为红色边玛带顶（旧 0.295 基本准确）；下沿 0.476 为红墙与白基座交界（旧 0.440 偏高约 26px，把红宫竖向压扁，导致正视/主视宽高比假性矛盾）。",
+        "scope": "palace_proper"
+      }
+    ]
+}

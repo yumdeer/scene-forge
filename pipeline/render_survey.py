@@ -39,6 +39,10 @@ LOCATION_LABELS = {
 
 CATEGORY_LABELS = {
     "building": "建筑",
+    "building_cluster": "建筑群",
+    "terrace": "台地",
+    "stairs": "梯级",
+    "retaining_wall": "挡墙",
     "terrain": "地形",
     "vegetation": "植被",
     "water": "水面",
@@ -62,6 +66,24 @@ METHOD_LABELS = {
     "geodata": "地理数据",
     "template": "模板匹配",
     "procedural": "程序化生成",
+}
+
+STRUCTURE_CLASS_LABELS = {
+    "terrain": "地形",
+    "massing_volume": "体量",
+    "white_wall": "白墙",
+    "window_band": "窗带/窗洞",
+    "eave_band": "檐带/窗楣带",
+    "terrace": "台地",
+    "retaining_wall": "挡墙",
+    "stairs": "梯级",
+    "building_cluster": "房群",
+    "roof_cluster": "屋顶群",
+    "vegetation": "植被",
+    "road": "道路",
+    "water": "水面",
+    "prop": "道具",
+    "other": "其他",
 }
 
 DECISION_LABELS = {
@@ -227,6 +249,98 @@ def _section_elements(survey):
     )
 
 
+def _has_structure(element):
+    """是否需要展示结构层级与测量依据。"""
+    return any(
+        key in element
+        for key in ("parentId", "orderIndex", "measurements", "repetition")
+    )
+
+
+def _section_measurements(survey):
+    """结构与测量章节：仅当勘察数据记录了层级、重复数量或测量依据时输出。"""
+    rows = []
+    for element in survey["elements"]:
+        if not _has_structure(element):
+            continue
+        repetition = element.get("repetition")
+        repetition_text = ""
+        if repetition:
+            repetition_text = f"{repetition['count']} 个"
+            if repetition.get("spacingMeters"):
+                repetition_text += f"，间距约 {repetition['spacingMeters']} 米"
+            repetition_text += f"（{repetition['note']}）"
+        measurements = element.get("measurements") or []
+        measurement_text = "；".join(
+            f"{item['label']} {item['value']}{item['unit']}"
+            f"（{item['source']}{'，' + item['note'] if item.get('note') else ''}）"
+            for item in measurements
+        )
+        rows.append(
+            [
+                element["name"],
+                element.get("parentId", "—"),
+                element.get("orderIndex", "—"),
+                repetition_text or "—",
+                measurement_text or "—",
+            ]
+        )
+
+    if not rows:
+        return ""
+    return "\n".join(
+        [
+            "## 4.1 结构层级、重复数量与测量依据",
+            "",
+            _table(["元素", "父级", "序号", "重复数量", "测量依据"], rows),
+        ]
+    )
+
+
+def _section_regions(survey):
+    """区域与结构覆盖清单：覆盖门禁的输入，缺省时整节省略。"""
+    regions = survey.get("regions") or []
+    if not regions:
+        return ""
+
+    rows = []
+    for region in regions:
+        bbox = region["bbox"]
+        bbox_text = (
+            f"{bbox['x']},{bbox['y']},{bbox['width']},{bbox['height']}"
+        )
+        classes = "、".join(
+            _label(STRUCTURE_CLASS_LABELS, item) + f"（{item}）"
+            for item in region["structureClasses"]
+        )
+        note = region.get("note", "")
+        waiver = region.get("waiver")
+        if waiver:
+            note = (note + " " if note else "") + f"已豁免：{waiver['reason']}"
+        rows.append(
+            [
+                region["label"],
+                region["id"],
+                region["requiredStage"],
+                bbox_text,
+                classes,
+                note or "—",
+            ]
+        )
+
+    return "\n".join(
+        [
+            "## 4.2 照片区域与结构覆盖清单",
+            "",
+            "区域清单是覆盖门禁的输入：每个区域声明的结构类别，都必须在场景中有元素承接。",
+            "",
+            _table(["区域", "标识", "必需阶段", "区域框 (x,y,w,h)", "结构类别", "备注"], rows),
+            "",
+            "> 运行 `pipeline/coverage_check.py` 按本清单逐项对账；缺项即阻塞，不允许“看漏了”静默通过。",
+        ]
+    )
+
+
 def _section_sources(survey):
     lines = ["## 5. 照片与外部数据的用途及覆盖范围", "", "### 照片用途", ""]
     usage = survey["inputs"].get("photoUsage") or []
@@ -387,6 +501,8 @@ def render_survey(survey, validate=True):
         _section_location(survey),
         _section_intent(survey),
         _section_elements(survey),
+        _section_measurements(survey),
+        _section_regions(survey),
         _section_sources(survey),
         _section_coverage(survey),
         _section_assumptions(survey),
@@ -394,7 +510,7 @@ def render_survey(survey, validate=True):
         _section_recommendations(survey),
         _section_blockers(survey),
     ]
-    return "\n\n".join(sections).rstrip() + "\n"
+    return "\n\n".join(section for section in sections if section).rstrip() + "\n"
 
 
 def render_survey_file(path):
