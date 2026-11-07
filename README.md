@@ -41,10 +41,42 @@ python3 -m unittest discover -s tests -v
 
 报告模板见 [templates/survey-report.md](templates/survey-report.md)，由 `survey.json` 渲染生成，测试会校验其与渲染结果一致。
 
+## 体量闭环（P1）
+
+以布达拉宫为例，完整链路是“契约 → 覆盖 → 相机拟合 → 投影配准 → 灰模渲染”，每一步都有可执行脚本与机器可读报告：
+
+```bash
+SCENE=scenes/potala-palace-lhasa/scene.json
+SURVEY=examples/potala-survey.json
+
+# 1) 结构覆盖门禁：照片里可见的结构类别必须在场景里有元素承接
+python3 pipeline/coverage_check.py --survey $SURVEY --scene $SCENE
+
+# 2) 相机拟合：目标点 + 环绕方位/俯仰/距离 + fov；正视图锁死方位
+python3 pipeline/fit_camera.py --survey $SURVEY --scene $SCENE \
+  --photo photo_front --camera camera_front --lock-azimuth --elevation-limit 2 --write
+
+# 3) 配准门禁：相机投影包围盒 vs 照片地标，输出 derived/registration-report.json 与叠加图
+python3 pipeline/registration_check.py --survey $SURVEY --scene $SCENE
+
+# 4) 灰模渲染（Blender 4.5 headless，Cycles CPU；缺 libSM 时补 LD_LIBRARY_PATH）
+CAMERA_ID=camera_front RENDER_NAME=p1-massing-front.png \
+  blender -b -P generators/architecture/potala_massing.py
+```
+
+要点：
+
+- 相机水平位置只能由方位角与距离推出，禁止独立横移；否则求解器会用平移吸收几何比例误差。
+- 照片只约束宽高比，绝对尺度必须写在场景根级 `scaleAnchor`，缺省的均匀缩放对成像不可观测。
+- 地标 `scope` 区分“宫殿主体”与“含外围延伸墙的建筑群剪影”，两类不能混用一个包围盒。
+- 生成器只消费 `scene.json` 的 `reconstruction.generator.parameters`，参数由 `pipeline/massing_params.py` 展开（支持重复阵列与坡面剪切）。
+
 ## 当前状态
 
-阶段 1：工程契约与勘察基线。
+阶段 1 已完成，阶段 2 的体量闭环（P1）已在布达拉宫专项跑通。
 
 - 已完成：`scene.json` / `survey.json` Schema、最小完整示例、校验 CLI、勘察报告渲染器、正负向契约测试。
-- 进行中：`scene.json` v1.1 提案（`observations`、`relations`、`fidelity`、`geometryConstraints`、`cameras[].solvedFrom`）落 Schema。
-- 待启动：阶段 2 单图最小闭环（视觉证据适配器、建筑 Builder、灰模主视图对照）。
+- 已完成：体量参数展开、结构覆盖门禁、相机拟合、投影配准门禁、Blender 灰模生成器，以及布达拉宫两视角相机。
+- 已完成：`scaleAnchor` 尺度锚与地标 `scope`（主体 / 建筑群）契约字段。
+- 进行中：布达拉宫 P1 体量收敛——配准门禁 2/4，正视图仍受红宫偏窄与东侧墙脚随地形下探约束，详见[技术方案 8.2](docs/TECHNICAL_DESIGN.md) 与[专项复盘](docs/POTALA_CASE_STUDY.md)。
+- 待启动：阶段 2 的视觉证据适配器与立面细节（P3~P5）；`scene.json` v1.1 提案（`observations`、`relations`、`fidelity`、`geometryConstraints`、`cameras[].solvedFrom`）。

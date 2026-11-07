@@ -1,6 +1,6 @@
 # SceneForge 技术方案（详细设计）
 
-> 版本：v0.1（技术详设）
+> 版本：v0.2（技术详设，2026-11 补充 P1 体量闭环）
 > 前置文档：[项目计划书](PROJECT_PLAN.md)
 > 开源选型依据：[开源项目适配对比](OPEN_SOURCE_COMPARISON.md)
 > 专项复盘：[布达拉宫建模复盘](POTALA_CASE_STUDY.md)
@@ -262,6 +262,23 @@ build(scene_document, element_id) -> BlenderObjectTree
 5. **屋顶类型显式**：可见坡面先建，未知背面标为假设；屋顶群高差、屋脊与檐口必须独立可控。
 6. **墙带分层**：底层墙、饰面、边玛带、白线独立对象，避免一条深色带“画”在墙上。
 
+#### 7.4.1 参数化体量的落地方式（P1 已实现）
+
+体量参数写在 `scene.json` 的 `elements[].reconstruction.generator.parameters`，由 `pipeline/massing_params.py` 展开后交给 `generators/architecture/potala_massing.py` 构建，禁止在生成器里写死坐标。
+
+| 参数结构 | 语义 |
+| --- | --- |
+| `boxes[]` | 轴对齐体块：`name/x0/x1/y0/y1/z0/z1`，可带 `repeat`（沿轴重复阵列）与 `slopeZPerX`（坡面剪切，`z_actual(x) = z0 + slopeZPerX*(x - xRef)`） |
+| `prisms[]` | 坡屋顶棱柱：底/顶轮廓点串 + 高度，用于金顶、斜檐、坡屋面 |
+| `material` | 元素级材质键（如 `clay`、`roof_gold`、`wall_red`），缺省 `clay` |
+| 子体块 `scope` | 标 `complex` 的体块只在 `complex` 地标参与配准投影，避免外围延伸墙虚增主体宽度 |
+
+生成与校验的边界：
+
+- 生成器只读契约与受控资产，遇到缺相机、缺材质直接 `[FAIL]` 退出，不静默降级；
+- 重复构件按参数展开，不在脚本里复制坐标；
+- 渲染为固定机位（`CAMERA_ID`）与固定采样（Cycles CPU 40），保证回归可比。
+
 ### 7.5 产品/道具 Builder
 
 - 主体几何优先参数化（箱体、回转体、圆角、倒角）；
@@ -317,7 +334,31 @@ build(scene_document, element_id) -> BlenderObjectTree
 - 地标口径 `scope`：`photoLandmarks[].scope` 取 `palace_proper`（缺省，只含宫殿主体）或 `complex`（含外围延伸白墙等完整剪影）。生成参数里标 `scope: "complex"` 的子体块（如 `white_base_outer_w/e`）只在 `complex` 地标参与投影，否则主体宽度会被外围延伸段虚增。
 - 流程约束：新增/删除场景元素或修改勘察区域后，必须重新运行覆盖门禁，报告与场景同版本归档。
 
-### 8.2 轮廓对齐指标
+### 8.2 P1 体量基线（布达拉宫，2026-11）
+
+可执行链路与产物：
+
+```bash
+python3 pipeline/coverage_check.py    --survey examples/potala-survey.json --scene scenes/potala-palace-lhasa/scene.json
+python3 pipeline/fit_camera.py        --survey examples/potala-survey.json --scene scenes/potala-palace-lhasa/scene.json \
+  --photo photo_front --camera camera_front --lock-azimuth --elevation-limit 2 --write
+python3 pipeline/registration_check.py --survey examples/potala-survey.json --scene scenes/potala-palace-lhasa/scene.json
+```
+
+| 门禁 | 当前结果 | 说明 |
+| --- | --- | --- |
+| survey | 通过 | 尺度锚 `scaleAnchor` 400m×117m 已记录来源 |
+| 结构覆盖 | 15/15 | 区域 × 结构类别全部有元素承接 |
+| layout（主视图） | 2/2 通过 | `building_main` IoU 0.81、`red_palace` IoU 0.90 |
+| layout（正视图） | 0/2 通过 | `front_building` 高度 +12.2%、`front_red_palace` 宽度 −13.7% / IoU 0.55 |
+
+未通过项的根因与处置方向：
+
+- **正视整体高度偏高**：模型东侧白墙脚随地形下探到约 −32m，照片里白墙下沿近似水平，导致投影可见高度虚增。属于地形与墙脚建模口径问题，不应靠调整地标包围盒掩盖。
+- **红宫偏窄**：正视图折算需约 71~72m，而主视图在 62m 时宽度误差已 +5.9%。两视角方向相反，说明红宫进深/前脸退后量也参与了宽度投影，需联合主视图独立量测后再定，不能单向加宽。
+- **地标置信度**：`front_red_palace` 下沿由 0.440 修正为 0.476（旧值把红宫竖向压扁约 26px，曾造成“两视角照片自相矛盾”的误判）。地标 bbox 必须写明每条边的判读依据与歧义点，否则残差无法归因。
+
+### 8.3 轮廓对齐指标
 
 在渲染图中提取主体轮廓，与原图分割 mask 比较：
 
@@ -328,13 +369,13 @@ build(scene_document, element_id) -> BlenderObjectTree
 
 指标只用于定位问题，不替代人工确认。
 
-### 8.3 回归验证
+### 8.4 回归验证
 
 - 每次构建生成固定机位渲染，与基线图做差异对比；
 - 结构参数变更必须附差异说明；
 - 已锁定区域（`locked: true`）不得自动改变。
 
-### 8.4 失败分级
+### 8.5 失败分级
 
 | 级别 | 含义 | 处理 |
 | --- | --- | --- |
